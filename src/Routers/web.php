@@ -9,6 +9,7 @@ use App\Controllers\Dashboard\DashboardController;
 use App\Controllers\Permissao\PermissaoController;
 use App\Controllers\Permissao\PermissaoUserController;
 use App\Controllers\User\UserPerfilController;
+use App\Controllers\Home\HomeController;
 
 //instanciar
 $router = new Router();
@@ -19,14 +20,18 @@ $dashboardController = new DashboardController();
 $permissaoController = new PermissaoController();
 $permissaoUserController = new PermissaoUserController();
 $userPerfilController = new UserPerfilController();
+$homeController = new HomeController();
 
 //rotas
 
 //not-found
-$router->create("GET", "/404", [$notFoundController, 'index']);
+$router->create("GET", "/404", [$notFoundController, 'index'], null);
+
+//home
+$router->create("GET", "/", [$homeController, 'index'], null);
 
 //login e logout
-$router->create("GET", "/", [$userController, 'login'], null);
+$router->create("GET", "/login", [$userController, 'login'], null);
 $router->create("POST", "/login", [$userController, 'auth'], null);
 $router->create("GET", "/logout", [$userController, 'logout'], $auth);
 
