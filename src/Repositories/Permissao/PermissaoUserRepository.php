@@ -2,12 +2,13 @@
 
 namespace App\Repositories\Permissao;
 
+use App\Interface\Permissao\IPermissaoUser;
 use App\Config\Database;
 use App\Models\Permissao\PermissaoUser;
 use App\Repositories\Traits\Find;
 use App\Repositories\User\UserRepository;
 
-class PermissaoUserRepository {
+class PermissaoUserRepository implements IPermissaoUser{
 
     const CLASS_NAME = PermissaoUser::class;
     const TABLE = 'permissao_usuario';
