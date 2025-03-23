@@ -2,15 +2,16 @@
 
 namespace App\Models\Produto;
 
-use App\Models\Traits\Find;
+use App\Models\Traits\Uuid;
 
 class Produto {
 
-    use Find;
+    use Uuid;
 
     public $id;
     public $uuid;
     public $nome;
+    public $descricao;
     public $codigo;
     public $preco;
     public $estoque;
@@ -24,6 +25,7 @@ class Produto {
         $produto->id = $data['id'] ?? null;
         $produto->uuid = $data['uuid'] ?? $this->generateUUID();
         $produto->nome = $data['nome'] ?? null;
+        $produto->descricao = $data['descricao'] ?? null;
         $produto->codigo = $data['codigo'] ?? null;
         $produto->preco = $data['preco'] ?? 0;
         $produto->estoque = (!isset($data['estoque']) || $data['estoque'] == "") ? 1 : $data['estoque'];
