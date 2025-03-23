@@ -21,8 +21,6 @@ class User {
     public $created_at;
     public $updated_at;
 
-    public function __construct(){}
-
     public function create(array $data) : User {
         $user = new User();
         $user->id = $data['id'] ?? null;
