@@ -10,6 +10,7 @@ use App\Controllers\Permissao\PermissaoController;
 use App\Controllers\Permissao\PermissaoUserController;
 use App\Controllers\User\UserPerfilController;
 use App\Controllers\Home\HomeController;
+use App\Controllers\Produto\ProdutoController;
 
 //instanciar
 $router = new Router();
@@ -21,6 +22,7 @@ $permissaoController = new PermissaoController();
 $permissaoUserController = new PermissaoUserController();
 $userPerfilController = new UserPerfilController();
 $homeController = new HomeController();
+$produtoController = new ProdutoController();
 
 //rotas
 
@@ -66,5 +68,9 @@ $router->create("POST", "/perfil/editar", [$userPerfilController, 'updateDados']
 $router->create("POST", "/perfil/senha", [$userPerfilController, 'updateSenha'], $auth);
 $router->create("POST", "/perfil/deletar", [$userPerfilController, 'destroy'], $auth);
 
+//produtos
+$router->create("GET", "/produtos", [$produtoController, 'index'], $auth);
+$router->create("GET", "/produtos/cadastro", [$produtoController, 'create'], $auth);
+$router->create("POST", "/produtos/cadastro", [$produtoController, 'store'], $auth);
 
 return $router;

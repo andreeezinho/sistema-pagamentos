@@ -56,13 +56,49 @@ class ProdutoRepository implements IProduto{
         return $stmt->fetchAll(\PDO::FETCH_CLASS, self::CLASS_NAME);
     }
 
-    public function create(array $data){}
+    public function create(array $data){
+        $produto = $this->model->create($data);
+
+        try{
+            $sql = "INSERT INTO " . self::TABLE . "
+                SET
+                    uuid = :uuid,
+                    nome = :nome,
+                    descricao = :descricao,
+                    codigo = :codigo,
+                    preco = :preco,
+                    estoque = :estoque,
+                    ativo = :ativo,
+                    imagem = :imagem
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $create = $stmt->execute([
+                ':uuid' => $produto->uuid,
+                ':nome' => $produto->nome,
+                ':descricao' => $produto->descricao,
+                ':codigo' => $produto->codigo,
+                ':preco' => $produto->preco,
+                ':estoque' => $produto->estoque,
+                ':ativo' => $produto->ativo,
+                ':imagem' => $produto->imagem
+            ]);
+
+            if(!$create){
+                return null;
+            }
+
+            return $this->findByUuid($produto->uuid);
+
+        }catch(\Throwable $th){
+            return null;
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
 
     public function update(array $data, int $id){}
 
     public function delete(int $id){}
-
-    public function findByUuid(string $uuid){}
-
-    public function findById(string $id){}
 }
