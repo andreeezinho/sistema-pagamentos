@@ -38,13 +38,18 @@ class ProdutoRepository implements IProduto{
             $bindings[':preco'] = number_format($params['preco'],2,".",".");
         }
 
+        if(isset($params['estoque']) && !empty($params['estoque'])){
+            $conditions[] = "estoque >= :estoque";
+            $bindings[':estoque'] = $params['estoque'];
+        }
+
         if(isset($params['ativo']) && $params['ativo'] != ""){
             $conditions[] = "ativo = :ativo";
             $bindings[':ativo'] = $params['ativo'];
         }
-
-        if(count($conditions) > 0){
-            $sql .= " WHERE " . implode(" AND " . $conditions);
+    
+        if(count($conditions) > 0) {
+            $sql .= " WHERE " . implode(" AND ", $conditions);
         }
 
         $sql .= " ORDER BY created_at DESC";

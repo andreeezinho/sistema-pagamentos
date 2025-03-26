@@ -18,6 +18,7 @@ class HomeController extends Controller {
 
     public function index(Request $request){
         $params = $request->getQueryParams();
+        $params = array_merge($params, ['ativo' => 1, 'estoque' => 1]);
 
         $produtos = $this->produtoRepository->all($params);
 
