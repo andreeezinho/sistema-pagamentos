@@ -1,4 +1,4 @@
-<form action="/produtos/cadastro" method="POST">
+<form action="/produtos/cadastro" method="POST" enctype="multipart/form-data">
     <input type="text" name="nome" placeholder="nome">
     <input type="text" name="descricao" placeholder="descricao">
     <input type="text" name="codigo" placeholder="codigo">

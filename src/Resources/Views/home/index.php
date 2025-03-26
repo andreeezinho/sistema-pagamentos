@@ -12,6 +12,7 @@
         foreach($produtos as $produto){
 ?>
     <div>
+        <img src="/public/img/produto/<?= $produto->imagem ?>" alt="Imagem produto" width="100px">
         <p><?= $produto->nome ?></p>
         <p><?= $produto->descricao ?></p>
         <p><?= $produto->preco ?></p>

@@ -1,4 +1,4 @@
-<form action="/produtos/<?= $produto->uuid ?>/editar" method="POST">
+<form action="/produtos/<?= $produto->uuid ?>/editar" method="POST" enctype="multipart/form-data">
     <input type="text" name="nome" placeholder="nome" value="<?= $produto->nome ?>">
     <input type="text" name="descricao" placeholder="descricao" value="<?= $produto->descricao ?>">
     <input type="text" name="codigo" placeholder="codigo" value="<?= $produto->codigo ?>">

@@ -32,7 +32,13 @@ class ProdutoController extends Controller {
     public function store(Request $request){
         $data = $request->getBodyParams();
 
-        $create = $this->produtoRepository->create($data);
+        if(isset($_FILES['imagem'])){
+            $data['imagem'] = $_FILES['imagem'];
+        }
+
+        $dir = "/produto";
+
+        $create = $this->produtoRepository->create($data, $dir);
 
         if(is_null($create)){
             return $this->router->view('produto/create', [

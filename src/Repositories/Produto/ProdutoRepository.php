@@ -61,7 +61,11 @@ class ProdutoRepository implements IProduto{
         return $stmt->fetchAll(\PDO::FETCH_CLASS, self::CLASS_NAME);
     }
 
-    public function create(array $data){
+    public function create(array $data, string $dir){
+        $imagem = createImage($data['imagem'], $dir);
+
+        $data['imagem'] = $imagem['arquivo_nome'] ?? null;
+
         $produto = $this->model->create($data);
 
         try{
@@ -139,6 +143,42 @@ class ProdutoRepository implements IProduto{
 
             return $this->findById($id);
             
+        }catch(\Throwable $th){
+            return null;
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
+
+    public function updateImage(array $image, int $id, string $dir){
+        $updateImagem = createImage($icone, $dir);
+
+        if(is_null($updateImagem)){
+            return null;
+        }
+
+        try{
+
+            $sql = "UPDATE " . self::TABLE . "
+                SET
+                    imagem = :imagem
+                WHERE 
+                    id = :id
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $update = $stmt->execute([
+                ':imagem' => $updateIcone['arquivo_nome'],
+                ':id' => $id
+            ]);
+
+            if(!$update){
+                return null;
+            }
+
+            return $this->findById($id);
+
         }catch(\Throwable $th){
             return null;
         }finally{
