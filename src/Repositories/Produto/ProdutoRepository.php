@@ -98,7 +98,48 @@ class ProdutoRepository implements IProduto{
         }
     }
 
-    public function update(array $data, int $id){}
+    public function update(array $data, int $id){
+        $produto = $this->findById($id);
+        
+        $produto = $this->model->update($data, $produto);
+
+        try{
+            $sql = "UPDATE " . self::TABLE . "
+                SET
+                    nome = :nome,
+                    descricao = :descricao,
+                    codigo = :codigo,
+                    preco = :preco,
+                    estoque = :estoque,
+                    ativo = :ativo
+                WHERE 
+                    id = :id
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+            
+            $update = $stmt->execute([
+                ':nome' => $produto->nome,
+                ':descricao' => $produto->descricao,
+                ':codigo' => $produto->codigo,
+                ':preco' => $produto->preco,
+                ':estoque' => $produto->estoque,
+                ':ativo' => $produto->ativo,
+                ':id' => $id
+            ]);
+
+            if(!$update){
+                return null;
+            }
+
+            return $this->findById($id);
+            
+        }catch(\Throwable $th){
+            print_r($th);
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
 
     public function delete(int $id){}
 }

@@ -35,4 +35,16 @@ class Produto {
         $produto->updated_at = $data['updated_at'] ?? null;
         return $produto;
     }
+
+    public function update(array $data, Produto $produto) : Produto {
+        $produto->nome = $data['nome'] ?? $produto->nome;
+        $produto->descricao = $data['descricao'] ?? $produto->descricao;
+        $produto->codigo = $data['codigo'] ?? $produto->codigo;
+        $produto->preco = $data['preco'] ?? $produto->preco;
+        $produto->estoque = $data['estoque'] ?? $produto->estoque;
+        $produto->ativo = $data['ativo'] ?? $produto->ativo;
+        $produto->imagem = $data['imagem'] ?? $produto->imagem;
+
+        return $produto;
+    }
 }

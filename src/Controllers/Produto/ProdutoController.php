@@ -43,4 +43,37 @@ class ProdutoController extends Controller {
         return $this->router->redirect('produtos');
     }
 
+    public function edit(Request $request, $uuid){
+        $produto = $this->produtoRepository->findByUuid($uuid);
+
+        if(!$produto){
+            return $this->router->redirect('');
+        }
+
+        return $this->router->view('produto/edit', [
+            'produto' => $produto
+        ]);
+    }
+
+    public function update(Request $request, $uuid){
+        $produto = $this->produtoRepository->findByUuid($uuid);
+
+        if(!$produto){
+            return $this->router->redirect('produtos');
+        }
+
+        $data = $request->getBodyParams();
+
+        $update = $this->produtoRepository->update($data, $produto->id);
+
+        if(is_null($update)){
+            return $this->router->view('produto/edit', [
+                'produto' => $produto,
+                'erro' => 'Não foi possível editar o produto'
+            ]);
+        }
+
+        return $this->router->redirect('produtos');
+    }
+
 }
