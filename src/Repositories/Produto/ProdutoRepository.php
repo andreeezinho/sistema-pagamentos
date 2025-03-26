@@ -135,11 +135,33 @@ class ProdutoRepository implements IProduto{
             return $this->findById($id);
             
         }catch(\Throwable $th){
-            print_r($th);
+            return null;
         }finally{
             Database::getInstance()->closeConnection();
         }
     }
 
-    public function delete(int $id){}
+    public function delete(int $id){
+        try{
+            $sql = "UPDATE " . self::TABLE . "
+                SET
+                    ativo = 0
+                WHERE
+                    id = :id
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $delete = $stmt->execute([
+                ':id' => $id
+            ]);
+
+            return $delete;
+            
+        }catch(\Throwable $th){
+            return false;
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
 }

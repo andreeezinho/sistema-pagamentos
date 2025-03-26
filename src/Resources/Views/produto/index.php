@@ -11,6 +11,9 @@
         <p><?= $produto->codigo ?></p>
         <p><?= $produto->estoque ?></p>
         <p><?= $produto->ativo ?></p>
+        <form action="produtos/<?= $produto->uuid ?>/deletar" method="post">
+            <button type="submit">Deletar</button>
+        </form>
     </div>
 <?php
         }

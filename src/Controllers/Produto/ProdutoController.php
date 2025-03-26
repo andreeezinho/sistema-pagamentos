@@ -76,4 +76,20 @@ class ProdutoController extends Controller {
         return $this->router->redirect('produtos');
     }
 
+    public function destroy(Request $request, $uuid){
+        $produto = $this->produtoRepository->findByUuid($uuid);
+
+        if(!$produto){
+            return $this->router->redirect('produtos');
+        }
+
+        $delete = $this->produtoRepository->delete($produto->id);
+
+        if(!$delete){
+            return $this->router->redirect('');
+        }
+        
+        return $this->router->redirect('produtos');
+    }
+
 }
