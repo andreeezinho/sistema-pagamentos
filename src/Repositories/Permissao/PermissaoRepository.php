@@ -2,12 +2,13 @@
 
 namespace App\Repositories\Permissao;
 
+use App\Interface\Permissao\IPermissao;
 use App\Config\Database;
 use App\Models\Permissao\Permissao;
 use App\Repositories\Traits\Find;
 use App\Repositories\User\UserRepository;
 
-class PermissaoRepository {
+class PermissaoRepository implements IPermissao {
 
     const CLASS_NAME = Permissao::class;
     const TABLE = 'permissoes';
