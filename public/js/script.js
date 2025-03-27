@@ -11,3 +11,7 @@ function readImage(){
 if(document.getElementById("icone")){
     document.getElementById("icone").addEventListener("change", readImage, false);
 }
+
+if(document.getElementById("imagem")){
+    document.getElementById("imagem").addEventListener("change", readImage, false);
+}

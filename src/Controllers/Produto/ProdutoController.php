@@ -70,7 +70,13 @@ class ProdutoController extends Controller {
 
         $data = $request->getBodyParams();
 
-        $update = $this->produtoRepository->update($data, $produto->id);
+        if(isset($_FILES['imagem'])){
+            $data['imagem'] = $_FILES['imagem'];
+        }
+
+        $dir = "/produto";
+
+        $update = $this->produtoRepository->update($data, $produto->id, $dir);
 
         if(is_null($update)){
             return $this->router->view('produto/edit', [

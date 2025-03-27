@@ -107,8 +107,12 @@ class ProdutoRepository implements IProduto{
         }
     }
 
-    public function update(array $data, int $id){
+    public function update(array $data, int $id, string $dir){
         $produto = $this->findById($id);
+
+        if(!is_null($data['imagem']['name'])){
+            $updateImage = $this->updateImage($data['imagem'], $id, $dir);
+        }
         
         $produto = $this->model->update($data, $produto);
 
@@ -150,8 +154,8 @@ class ProdutoRepository implements IProduto{
         }
     }
 
-    public function updateImage(array $image, int $id, string $dir){
-        $updateImagem = createImage($icone, $dir);
+    public function updateImage(array $data, int $id, string $dir){
+        $updateImagem = createImage($data, $dir);
 
         if(is_null($updateImagem)){
             return null;
@@ -169,7 +173,7 @@ class ProdutoRepository implements IProduto{
             $stmt = $this->conn->prepare($sql);
 
             $update = $stmt->execute([
-                ':imagem' => $updateIcone['arquivo_nome'],
+                ':imagem' => $updateImagem['arquivo_nome'],
                 ':id' => $id
             ]);
 

@@ -1,5 +1,4 @@
 <h1>HOME</h1>
-<h1>Admin: <?= $_SESSION['user']->is_admin ?></h1>
 <form action="/" method="get">
 <input type="text" name="nome" placeholder="nome">
 <button type="submit">Search</button>

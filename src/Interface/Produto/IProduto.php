@@ -8,7 +8,7 @@ interface IProduto{
 
     public function create(array $data, string $dir);
 
-    public function update(array $data, int $id);
+    public function update(array $data, int $id, string $dir);
 
     public function updateImage(array $data, int $id, string $dir);
 
