@@ -19,7 +19,7 @@ class CarrosselProduto {
         $carrossel_produto = new CarrosselProduto();
         $carrossel_produto->id = $data['id'] ?? null;
         $carrossel_produto->uuid = $data['uuid'] ?? $this->generateUUID();
-        $carrossel_produto->nome = $data['nome_arquivo'] ?? null;
+        $carrossel_produto->nome_arquivo = $data['imagem'] ?? null;
         $carrossel_produto->produtos_id = $produtos_id ?? null;
         $carrossel_produto->created_at = $data['created_at'] ?? null;
         $carrossel_produto->updated_at = $data['updated_at'] ?? null;

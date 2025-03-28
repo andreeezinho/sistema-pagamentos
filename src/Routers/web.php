@@ -79,7 +79,8 @@ $router->create("POST", "/produtos/{uuid}/editar", [$produtoController, 'update'
 $router->create("POST", "/produtos/{uuid}/deletar", [$produtoController, 'destroy'], $auth);
 
 //carrossel-produto
-$router->create("POST", "/carrossel-produtos/{produto_uuid}/cadastro", [$carrosselProdutoController, 'store'], $auth);
+$router->create("POST", "/carrossel-produtos/{produto_uuid}/adicionar", [$carrosselProdutoController, 'store'], $auth);
+$router->create("POST", "/carrossel-produtos/{uuid}/editar", [$carrosselProdutoController, 'update'], $auth);
 
 
 return $router;

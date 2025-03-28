@@ -3,10 +3,7 @@
 ?>
 
     <form action="/produtos/<?= $produto->uuid ?>/editar" method="POST" enctype="multipart/form-data">
-        <label for="imagem">
-            <img src="/public/img/produto/<?= $produto->imagem ?>" alt="imagem" id="preview" width="100px">
-        </label>
-        <input type="file" name="imagem" id="imagem" placeholder="imagem">
+
         <input type="text" name="nome" placeholder="nome" value="<?= $produto->nome ?>">
         <input type="text" name="descricao" placeholder="descricao" value="<?= $produto->descricao ?>">
         <input type="text" name="codigo" placeholder="codigo" value="<?= $produto->codigo ?>">
@@ -22,7 +19,7 @@
 
     <h4>Carrossel</h4>
     
-    <button type="button" class="btn btn-danger mx-1" data-toggle="modal" data-target="#cadastrar-carrossel"><i class="bi-image-fill"></i> Inserir</button>
+    <button type="button" class="btn btn-primary mx-1" data-toggle="modal" data-target="#cadastrar-carrossel"><i class="bi-image-fill"></i>+ Inserir</button>
 
     <div class="modal fade" id="cadastrar-carrossel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -31,16 +28,14 @@
                     <h5 class="modal-title" id="exampleModalLongTitle"><i class="bi-person-fill-slash"></i> Deletar conta?</h5>
                 </div>
 
-                <div class="modal-body">
-                    <p class="my-auto">Deseja <b>deletar</b> sua conta?</p>
-                </div>
+                <form action="/carrossel-produtos/<?= $produto->uuid ?>/adicionar" method="POST" enctype="multipart/form-data">
+                    <label for="imagem">
+                        <img src="/public/img/produto/carrossel/default.png" alt="imagem" id="preview" width="100px">
+                    </label>
+                    <input type="file" name="imagem" id="imagem" placeholder="imagem">
 
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <form action="perfil/deletar" method="POST">
-                        <button type="submit" class="btn btn-danger">Deletar</button>
-                    </form>
-                </div>
+                    <button type="submit">Adicionar</button>
+                </form>
             </div>
         </div>
     </div>
@@ -49,7 +44,30 @@
         if(count($carrossel_produto) > 0){
             foreach($carrossel_produto as $carrossel){
     ?>
-        <img src="/public/img/produto/carrossel/<?= $carrossel->nome_arquivo ?>" alt="imagem" width="40px">
+        <div>
+            <button type="button" data-toggle="modal" data-target="#carrossel-<?= $carrossel->uuid ?>">
+                <img src="/public/img/produto/carrossel/<?= $carrossel->nome_arquivo ?>" alt="imagem" width="40px">
+            </button>
+
+            <div class="modal fade" id="carrossel-<?= $carrossel->uuid ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content text-dark">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle"><i class="bi-person-fill-slash"></i> Editar?</h5>
+                        </div>
+
+                        <form action="/carrossel-produtos/<?= $carrossel->uuid ?>/editar" method="POST" enctype="multipart/form-data">
+                            <label for="imagem">
+                                <img src="/public/img/produto/carrossel/<?= $carrossel->nome_arquivo ?>" alt="imagem" id="preview" width="100px">
+                            </label>
+                            <input type="file" name="imagem" id="imagem" placeholder="imagem">
+
+                            <button type="submit">Adicionar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     <?php
             }
         }else{

@@ -84,11 +84,11 @@ class CarrosselProdutoRepository implements ICarrosselProduto{
         $data['imagem'] = $imagem['arquivo_nome'] ?? null;
 
         $carrossel_produto = $this->model->create($data, $produtos_id);
-
+  
         try{
             $sql = "UPDATE " . self::TABLE . "
                 SET
-                    nome_arquivo = :nome_arquivo,
+                    nome_arquivo = :nome_arquivo
                 WHERE
                     id = :id
                 AND
@@ -99,15 +99,15 @@ class CarrosselProdutoRepository implements ICarrosselProduto{
 
             $update = $stmt->execute([
                 ':nome_arquivo' => $carrossel_produto->nome_arquivo,
-                ':produtos_id' => $carrossel_produto->produtos_id,
-                ':id' => $id
+                ':id' => $id,
+                ':produtos_id' => $carrossel_produto->produtos_id
             ]);
-
+            
             if(!$update){
                 return null;
             }
 
-            return $this->findByUuid($carrossel_produto->uuid);
+            return $this->findById($id);
 
         }catch(\Throwable $th){
             return null;
