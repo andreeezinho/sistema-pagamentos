@@ -24,6 +24,21 @@
         <button type="submit">Cadastrar</button>
     </form>
 
+    <h4>Carrossel</h4>
+    <?php
+        if(count($carrossel_produto) > 0){
+            foreach($carrossel_produto as $carrossel){
+    ?>
+        <img src="/public/img/produto/carrossel/<?= $carrossel->nome_arquivo ?>" alt="imagem" width="40px">
+    <?php
+            }
+        }else{
+    ?>
+        <p>Não há imagem no carrossel</p>
+    <?php
+        }
+    ?>
+
 <script src="<?= URL_SITE ?>/public/js/script.js"></script>
 </body>
 </html>

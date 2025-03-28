@@ -11,6 +11,7 @@ use App\Controllers\Permissao\PermissaoUserController;
 use App\Controllers\User\UserPerfilController;
 use App\Controllers\Home\HomeController;
 use App\Controllers\Produto\ProdutoController;
+use App\Controllers\Produto\CarrosselProdutoController;
 
 //instanciar
 $router = new Router();
@@ -23,6 +24,7 @@ $permissaoUserController = new PermissaoUserController();
 $userPerfilController = new UserPerfilController();
 $homeController = new HomeController();
 $produtoController = new ProdutoController();
+$carrosselProdutoController = new CarrosselProdutoController();
 
 //rotas
 
@@ -75,5 +77,6 @@ $router->create("POST", "/produtos/cadastro", [$produtoController, 'store'], $au
 $router->create("GET", "/produtos/{uuid}/editar", [$produtoController, 'edit'], $auth);
 $router->create("POST", "/produtos/{uuid}/editar", [$produtoController, 'update'], $auth);
 $router->create("POST", "/produtos/{uuid}/deletar", [$produtoController, 'destroy'], $auth);
+
 
 return $router;
