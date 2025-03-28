@@ -26,7 +26,7 @@ class CarrosselProdutoRepository implements ICarrosselProduto{
         $sql = "SELECT * FROM " . self::TABLE . "
             WHERE 
                 produtos_id = :produtos_id
-            ORDER BY created_at DESC
+            ORDER BY created_at ASC
         ";
 
         $stmt = $this->conn->prepare($sql);
@@ -38,14 +38,104 @@ class CarrosselProdutoRepository implements ICarrosselProduto{
         return $stmt->fetchAll(\PDO::FETCH_CLASS, self::CLASS_NAME);
     }
 
-    public function create(array $data, string $dir){}
+    public function create(array $data, int $produtos_id, string $dir){
+        $imagem = createImage($data['imagem'], $dir);
 
-    public function update(array $data, int $id, string $dir){}
+        $data['imagem'] = $imagem['arquivo_nome'] ?? null;
 
-    public function delete(int $id){}
+        $carrossel_produto = $this->model->create($data, $produtos_id);
 
-    public function findByUuid(string $uuid){}
+        try{
+            $sql = "INSERT INTO " . self::TABLE . "
+                SET
+                    uuid = :uuid,
+                    nome_arquivo = :nome_arquivo,
+                    produtos_id = :produtos_id
+            ";
 
-    public function findById(string $id){}
+            $stmt = $this->conn->prepare($sql);
 
+            $create = $stmt->execute([
+                ':uuid' => $carrossel_produto->uuid,
+                ':nome_arquivo' => $carrossel_produto->nome_arquivo,
+                ':produtos_id' => $carrossel_produto->produtos_id
+            ]);
+
+            if(!$create){
+                return null;
+            }
+
+            return $this->findByUuid($carrossel_produto->uuid);
+
+        }catch(\Throwable $th){
+            return null;
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
+
+    public function update(array $data, int $id, int $produtos_id, string $dir){
+        if(is_null($data['imagem']['name'])){
+            return null;
+        }
+
+        $imagem = createImage($data['imagem'], $dir);
+
+        $data['imagem'] = $imagem['arquivo_nome'] ?? null;
+
+        $carrossel_produto = $this->model->create($data, $produtos_id);
+
+        try{
+            $sql = "UPDATE " . self::TABLE . "
+                SET
+                    nome_arquivo = :nome_arquivo,
+                WHERE
+                    id = :id
+                AND
+                    produtos_id = :produtos_id
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $update = $stmt->execute([
+                ':nome_arquivo' => $carrossel_produto->nome_arquivo,
+                ':produtos_id' => $carrossel_produto->produtos_id,
+                ':id' => $id
+            ]);
+
+            if(!$update){
+                return null;
+            }
+
+            return $this->findByUuid($carrossel_produto->uuid);
+
+        }catch(\Throwable $th){
+            return null;
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
+
+    public function delete(int $id){
+        try{
+            $sql = "DELETE FROM " . self::TABLE . "
+                WHERE
+                    id = :id
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $delete = $stmt->execute([
+                ':id' => $id
+            ]);
+
+            return $delete;
+
+        }catch(\Throwable $th){
+            return null;
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
+    
 }

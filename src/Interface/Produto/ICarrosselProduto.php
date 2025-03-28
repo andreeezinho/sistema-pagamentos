@@ -6,9 +6,9 @@ interface ICarrosselProduto {
 
     public function allProdutctCarouselImages(int $produto_id);
 
-    public function create(array $data, string $dir);
+    public function create(array $data, int $produtos_id, string $dir);
 
-    public function update(array $data, int $id, string $dir);
+    public function update(array $data, int $id, int $produtos_id, string $dir);
 
     public function delete(int $id);
 
