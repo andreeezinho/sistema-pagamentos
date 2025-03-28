@@ -78,5 +78,8 @@ $router->create("GET", "/produtos/{uuid}/editar", [$produtoController, 'edit'], 
 $router->create("POST", "/produtos/{uuid}/editar", [$produtoController, 'update'], $auth);
 $router->create("POST", "/produtos/{uuid}/deletar", [$produtoController, 'destroy'], $auth);
 
+//carrossel-produto
+$router->create("POST", "/carrossel-produtos/{produto_uuid}/cadastro", [$carrosselProdutoController, 'store'], $auth);
+
 
 return $router;

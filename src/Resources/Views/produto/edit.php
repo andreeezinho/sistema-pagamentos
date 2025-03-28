@@ -1,11 +1,7 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+<?php
+    require_once __DIR__ . '/../layout/top.php';
+?>
+
     <form action="/produtos/<?= $produto->uuid ?>/editar" method="POST" enctype="multipart/form-data">
         <label for="imagem">
             <img src="/public/img/produto/<?= $produto->imagem ?>" alt="imagem" id="preview" width="100px">
@@ -25,6 +21,30 @@
     </form>
 
     <h4>Carrossel</h4>
+    
+    <button type="button" class="btn btn-danger mx-1" data-toggle="modal" data-target="#cadastrar-carrossel"><i class="bi-image-fill"></i> Inserir</button>
+
+    <div class="modal fade" id="cadastrar-carrossel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content text-dark">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle"><i class="bi-person-fill-slash"></i> Deletar conta?</h5>
+                </div>
+
+                <div class="modal-body">
+                    <p class="my-auto">Deseja <b>deletar</b> sua conta?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <form action="perfil/deletar" method="POST">
+                        <button type="submit" class="btn btn-danger">Deletar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <?php
         if(count($carrossel_produto) > 0){
             foreach($carrossel_produto as $carrossel){
@@ -39,6 +59,6 @@
         }
     ?>
 
-<script src="<?= URL_SITE ?>/public/js/script.js"></script>
-</body>
-</html>
+<?php
+    require_once __DIR__ . '/../layout/bottom.php';
+?>
