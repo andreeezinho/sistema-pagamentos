@@ -48,6 +48,9 @@
             <button type="button" data-toggle="modal" data-target="#carrossel-<?= $carrossel->uuid ?>">
                 <img src="/public/img/produto/carrossel/<?= $carrossel->nome_arquivo ?>" alt="imagem" width="40px">
             </button>
+            <form action="/carrossel-produtos/<?= $carrossel->uuid ?>/remover" method="POST">
+                <button type="submit">Remover</button>
+            </form>
 
             <div class="modal fade" id="carrossel-<?= $carrossel->uuid ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">

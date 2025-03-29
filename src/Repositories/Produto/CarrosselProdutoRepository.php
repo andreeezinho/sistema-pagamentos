@@ -116,7 +116,13 @@ class CarrosselProdutoRepository implements ICarrosselProduto{
         }
     }
 
-    public function delete(int $id){
+    public function delete(string $imagem, int $id, string $dir){
+        $delete = removeImage($imagem, $dir);
+
+        if(!$delete){
+            return null;
+        }
+
         try{
             $sql = "DELETE FROM " . self::TABLE . "
                 WHERE

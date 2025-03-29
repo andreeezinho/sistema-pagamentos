@@ -96,4 +96,34 @@ class CarrosselProdutoController extends Controller {
 
     }
 
+    public function destroy(Request $request, $uuid){
+        $carrossel_produto = $this->carrosselProdutoRepository->findByUuid($uuid);
+
+        if(!$carrossel_produto){
+            return $this->router->view('produto/edit', [
+                'produto' => $produto,
+                'erro' => 'Não carrossel não encontrado'
+            ]);
+        }
+
+        $dir = "/produto/carrossel";
+        
+        $delete = $this
+            ->carrosselProdutoRepository
+            ->delete(
+                $carrossel_produto->nome_arquivo, 
+                $carrossel_produto->id, 
+                $dir
+            );
+            
+        if(is_null($delete)){
+            return $this->router->view('produto/edit', [
+                'erro' => 'Não carrossel não encontrado'
+            ]);
+        }
+
+        return $this->router->redirect('produtos');
+
+    }
+
 }

@@ -10,7 +10,7 @@ interface ICarrosselProduto {
 
     public function update(array $data, int $id, int $produtos_id, string $dir);
 
-    public function delete(int $id);
+    public function delete(string $imagem, int $id, string $dir);
 
     public function findByUuid(string $uuid);
 

@@ -66,3 +66,15 @@ function createImage($arquivo, $dir){
     return null;
 
 }
+
+function removeImage($arquivo, $dir){
+    $path = rtrim($_SERVER['DOCUMENT_ROOT'] . '/public/img' . $dir, "/") . '/' . $arquivo;
+
+    if(file_exists($path)){
+        unlink($path);
+
+        return true;
+    }
+
+    return false;
+}
