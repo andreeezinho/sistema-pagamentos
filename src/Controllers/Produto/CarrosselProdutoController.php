@@ -18,6 +18,20 @@ class CarrosselProdutoController extends Controller {
         $this->produtoRepository = new ProdutoRepository();
     }
 
+    public function all(Request $request, $produto_uuid){
+        $produto = $this->produtoRepository->findByUuid($produto_uuid);
+
+        if(!$produto){
+            return $this->router->redirect('produtos');
+        }
+
+        $carrossel_produto = $this  
+            ->carrosselProdutoRepository
+            ->allProdutctCarouselImages($produto->id);
+
+        return $this->router->view('produto/carrossel/index');
+    }
+
     public function store(Request $request, $produto_uuid){
         $data = $request->getBodyParams();
 
@@ -115,7 +129,7 @@ class CarrosselProdutoController extends Controller {
                 $carrossel_produto->id, 
                 $dir
             );
-            
+
         if(is_null($delete)){
             return $this->router->view('produto/edit', [
                 'erro' => 'Não carrossel não encontrado'
