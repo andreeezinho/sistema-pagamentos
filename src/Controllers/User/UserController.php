@@ -17,10 +17,6 @@ class UserController extends Controller {
     }
 
     public function index(Request $request){
-        if(!userPermission('visualizar usuarios')){
-            return $this->router->redirect('');
-        }
-
         $params = $request->getQueryParams();
 
         $usuarios = $this->userRepository->all($params);
@@ -63,10 +59,6 @@ class UserController extends Controller {
     }
 
     public function edit(Request $request, $uuid){
-        if(!userPermission('editar usuarios')){
-            return $this->router->redirect('');
-        }
-        
         $usuario = $this->userRepository->findByUuid($uuid);
 
         if(!$usuario){
@@ -134,7 +126,7 @@ class UserController extends Controller {
         $auth = new Auth();
 
         if($auth->check()){
-            return $this->router->redirect('dashboard');
+            return $this->router->redirect('');
         }
 
         return $this->router->view('login/login', []);
@@ -148,7 +140,7 @@ class UserController extends Controller {
         $auth = new Auth();
 
         if($auth->login($user)){
-            return $this->router->redirect('dashboard');
+            return $this->router->redirect('');
         }
 
         return $this->router->view('login/login', [

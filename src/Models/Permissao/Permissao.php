@@ -11,7 +11,7 @@ class Permissao {
     public $id;
     public $uuid;
     public $nome;
-    public $tipo;
+    public $descricao;
     public $ativo;
     public $created_at;
     public $updated_at;
@@ -21,7 +21,7 @@ class Permissao {
         $permissao->id = $data['id'] ?? null;
         $permissao->uuid = $data['uuid'] ?? $this->generateUUID();
         $permissao->nome = $data['nome'] ?? null;
-        $permissao->tipo = $data['tipo'] ?? null;
+        $permissao->descricao = $data['descricao'] ?? null;
         $permissao->ativo = ($data['ativo'] == "") ? 1 : $data['ativo'];
         $permissao->created_at = $data['created_at'] ?? null;
         $permissao->updated_at = $data['updated_at'] ?? null;

@@ -2,11 +2,12 @@
 
 namespace App\Repositories\User;
 
+use App\Interface\User\IUser;
 use App\Config\Database;
 use App\Models\User\User;
 use App\Repositories\Traits\Find;
 
-class UserRepository{
+class UserRepository implements IUser{
 
     const CLASS_NAME = User::class;
     const TABLE = 'usuarios';

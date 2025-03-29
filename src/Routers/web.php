@@ -9,6 +9,9 @@ use App\Controllers\Dashboard\DashboardController;
 use App\Controllers\Permissao\PermissaoController;
 use App\Controllers\Permissao\PermissaoUserController;
 use App\Controllers\User\UserPerfilController;
+use App\Controllers\Home\HomeController;
+use App\Controllers\Produto\ProdutoController;
+use App\Controllers\Produto\CarrosselProdutoController;
 
 //instanciar
 $router = new Router();
@@ -19,14 +22,20 @@ $dashboardController = new DashboardController();
 $permissaoController = new PermissaoController();
 $permissaoUserController = new PermissaoUserController();
 $userPerfilController = new UserPerfilController();
+$homeController = new HomeController();
+$produtoController = new ProdutoController();
+$carrosselProdutoController = new CarrosselProdutoController();
 
 //rotas
 
 //not-found
-$router->create("GET", "/404", [$notFoundController, 'index']);
+$router->create("GET", "/404", [$notFoundController, 'index'], null);
+
+//home
+$router->create("GET", "/", [$homeController, 'index'], null);
 
 //login e logout
-$router->create("GET", "/", [$userController, 'login'], null);
+$router->create("GET", "/login", [$userController, 'login'], null);
 $router->create("POST", "/login", [$userController, 'auth'], null);
 $router->create("GET", "/logout", [$userController, 'logout'], $auth);
 
@@ -60,6 +69,20 @@ $router->create("POST", "/perfil/icone", [$userPerfilController, 'updateIcone'],
 $router->create("POST", "/perfil/editar", [$userPerfilController, 'updateDados'], $auth);
 $router->create("POST", "/perfil/senha", [$userPerfilController, 'updateSenha'], $auth);
 $router->create("POST", "/perfil/deletar", [$userPerfilController, 'destroy'], $auth);
+
+//produtos
+$router->create("GET", "/produtos", [$produtoController, 'index'], $auth);
+$router->create("GET", "/produtos/cadastro", [$produtoController, 'create'], $auth);
+$router->create("POST", "/produtos/cadastro", [$produtoController, 'store'], $auth);
+$router->create("GET", "/produtos/{uuid}/editar", [$produtoController, 'edit'], $auth);
+$router->create("POST", "/produtos/{uuid}/editar", [$produtoController, 'update'], $auth);
+$router->create("POST", "/produtos/{uuid}/deletar", [$produtoController, 'destroy'], $auth);
+
+//carrossel-produto
+$router->create("GET", "/carrossel-produtos/{produto_uuid}", [$carrosselProdutoController, 'index'], $auth);
+$router->create("POST", "/carrossel-produtos/{produto_uuid}/adicionar", [$carrosselProdutoController, 'store'], $auth);
+$router->create("POST", "/carrossel-produtos/{uuid}/editar", [$carrosselProdutoController, 'update'], $auth);
+$router->create("POST", "/carrossel-produtos/{uuid}/remover", [$carrosselProdutoController, 'destroy'], $auth);
 
 
 return $router;
