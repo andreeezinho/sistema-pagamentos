@@ -29,7 +29,10 @@ class CarrosselProdutoController extends Controller {
             ->carrosselProdutoRepository
             ->allProdutctCarouselImages($produto->id);
 
-        return $this->router->view('produto/carrossel/index');
+        return $this->router->view('produto/carrossel/index', [
+            'produto' => $produto,
+            'carrossel_produto' => $carrossel_produto
+        ]);
     }
 
     public function store(Request $request, $produto_uuid){
