@@ -84,7 +84,7 @@ class CarrosselProdutoRepository implements ICarrosselProduto{
         $data['imagem'] = $imagem['arquivo_nome'] ?? null;
 
         $carrossel_produto = $this->model->create($data, $produtos_id);
-  
+
         try{
             $sql = "UPDATE " . self::TABLE . "
                 SET

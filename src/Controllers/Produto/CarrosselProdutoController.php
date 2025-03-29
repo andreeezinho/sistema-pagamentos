@@ -18,7 +18,7 @@ class CarrosselProdutoController extends Controller {
         $this->produtoRepository = new ProdutoRepository();
     }
 
-    public function all(Request $request, $produto_uuid){
+    public function index(Request $request, $produto_uuid){
         $produto = $this->produtoRepository->findByUuid($produto_uuid);
 
         if(!$produto){
