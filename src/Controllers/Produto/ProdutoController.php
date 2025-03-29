@@ -5,14 +5,17 @@ namespace App\Controllers\Produto;
 use App\Request\Request;
 use App\Controllers\Controller;
 use App\Repositories\Produto\ProdutoRepository;
+use App\Repositories\Produto\CarrosselProdutoRepository;
 
 class ProdutoController extends Controller {
 
     protected $produtoRepository;
+    protected $carrosselProdutoRepository;
 
     public function __construct(){
         parent::__construct();
         $this->produtoRepository = new ProdutoRepository();
+        $this->carrosselProdutoRepository = new CarrosselProdutoRepository();
     }
 
     public function index(Request $request){
@@ -56,8 +59,13 @@ class ProdutoController extends Controller {
             return $this->router->redirect('');
         }
 
+        $carrossel_produto = $this
+            ->carrosselProdutoRepository
+            ->allProdutctCarouselImages($produto->id);
+
         return $this->router->view('produto/edit', [
-            'produto' => $produto
+            'produto' => $produto,
+            'carrossel_produto' => $carrossel_produto
         ]);
     }
 
