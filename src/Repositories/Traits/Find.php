@@ -39,4 +39,22 @@ trait Find {
         return $result;
     }
 
+    public function findByUserId($usuarios_id){
+        $stmt = $this->conn->prepare(
+            "SELECT * FROM " . self::TABLE . " WHERE usuarios_id = :usuarios_id"
+        );
+
+        $stmt->bindParam(':usuarios_id', $usuarios_id, \PDO::PARAM_INT);
+        $stmt->execute();
+
+        $stmt->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, self::CLASS_NAME);
+        $result = $stmt->fetch();
+
+        if(is_null($result)){
+            return null;
+        }
+
+        return $result;
+    }
+
 }

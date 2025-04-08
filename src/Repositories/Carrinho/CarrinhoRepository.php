@@ -36,7 +36,7 @@ class CarrinhoRepository implements ICarrinho {
 
             $create = $stmt->execute([
                 ':uuid' => $carrinho->uuid,
-                'usuarios_id' => $carrinho->usuarios_id
+                ':usuarios_id' => $carrinho->usuarios_id
             ]);
 
             if(!$create){
@@ -45,20 +45,14 @@ class CarrinhoRepository implements ICarrinho {
 
             return $this->findByUuid($carrinho->uuid);
 
-        }catch(Throwable $th){
+        }catch(\Throwable $th){
             return null;
         }finally{
             Database::getInstance()->closeConnection();
         }
     }
 
-    public function allProductsInCart(int $id){}
-
-    public function addProductInCart(int $id, int $produto_id, int $quantidade){}
-
-    public function removeProductInCart(int $id, int $produto_id, int $quantidade){}
-
-    public function deleteAllProducts(int $id){}
+    public function delete(int $id){}
 
 }
 
