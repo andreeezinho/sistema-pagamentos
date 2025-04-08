@@ -14,7 +14,7 @@ class Carrinho {
     public $created_at;
     public $updated_at;
 
-    public function create(array $data, $usuarios_id) : Carrinho {
+    public function create($usuarios_id) : Carrinho {
         $carrinho = new Carrinho();
         $carrinho->id = $data['id'] ?? null;
         $carrinho->uuid = $data['uuid'] ?? $this->generateUUID();
