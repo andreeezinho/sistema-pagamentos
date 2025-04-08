@@ -14,8 +14,8 @@ class CarrosselProdutoRepository implements ICarrosselProduto{
 
     use Find;
 
-    public $conn;
-    public $model;
+    protected $conn;
+    protected $model;
 
     public function __construct(){
         $this->conn = Database::getInstance()->getConnection();
