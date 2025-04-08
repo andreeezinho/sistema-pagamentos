@@ -12,6 +12,7 @@ use App\Controllers\User\UserPerfilController;
 use App\Controllers\Home\HomeController;
 use App\Controllers\Produto\ProdutoController;
 use App\Controllers\Produto\CarrosselProdutoController;
+use App\Controllers\Carrinho\CarrinhoController;
 
 //instanciar
 $router = new Router();
@@ -25,6 +26,7 @@ $userPerfilController = new UserPerfilController();
 $homeController = new HomeController();
 $produtoController = new ProdutoController();
 $carrosselProdutoController = new CarrosselProdutoController();
+$carrinhoController = new CarrinhoController();
 
 //rotas
 
@@ -85,6 +87,6 @@ $router->create("POST", "/carrossel-produtos/{uuid}/editar", [$carrosselProdutoC
 $router->create("POST", "/carrossel-produtos/{uuid}/remover", [$carrosselProdutoController, 'destroy'], $auth);
 
 //carrinho
-
+$router->create("GET", "/carrinho", [$carrinhoController, 'index'], $auth);
 
 return $router;

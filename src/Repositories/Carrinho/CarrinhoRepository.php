@@ -4,7 +4,7 @@ namespace App\Repositories\Carrinho;
 
 use App\Interface\Carrinho\ICarrinho;
 use App\Config\Database;
-use App\Model\Carrinho\Carrinho;
+use App\Models\Carrinho\Carrinho;
 use App\Repositories\Traits\Find;
 
 class CarrinhoRepository implements ICarrinho {
