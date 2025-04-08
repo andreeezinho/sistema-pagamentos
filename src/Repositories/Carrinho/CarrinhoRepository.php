@@ -52,7 +52,27 @@ class CarrinhoRepository implements ICarrinho {
         }
     }
 
-    public function delete(int $id){}
+    public function delete(int $id){
+        try {
+            $sql = "DELETE FROM ". self::TABLE ."
+                WHERE
+                    id = :id
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $delete = $stmt->execute([
+                ':id' => $id
+            ]);
+
+            return $delete;
+
+        } catch (\Throwable $th) {
+            return null;
+        }finally{
+            Database::getInstance()->getConnection();
+        }
+    }
 
 }
 
