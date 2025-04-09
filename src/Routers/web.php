@@ -88,5 +88,6 @@ $router->create("POST", "/carrossel-produtos/{uuid}/remover", [$carrosselProduto
 
 //carrinho
 $router->create("GET", "/carrinho", [$carrinhoController, 'index'], $auth);
+$router->create("GET", "/carrinho/finalizar", [$carrinhoController, 'finish', $auth]);
 
 return $router;
