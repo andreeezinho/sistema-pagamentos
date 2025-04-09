@@ -8,7 +8,7 @@ interface ICarrinhoProduto{
 
     public function addProductInCart(array $data, int $id, int $produto_id);
 
-    public function removeProductInCart(int $id, int $produto_id, int $quantidade);
+    public function removeProductInCart(int $id, int $produto_id);
 
     public function deleteAllProducts(int $id, int $usuario_id);
 

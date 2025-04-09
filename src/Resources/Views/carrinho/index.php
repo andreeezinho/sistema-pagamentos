@@ -11,7 +11,7 @@
             <p>Quant: <?= $produto->quantidade ?></p>
             <p>preco: <?= $produto->preco ?></p>
             <div style="display: flex">
-                <form action="carrinho/produto/<?= $produto->uuid_produto ?>/remover" method="POST">
+                <form action="carrinho/produto/<?= $produto->uuid_produto ?>/subtrair" method="POST">
                     <button type="submit">-</button>
                 </form>
                 <form action="carrinho/produto/<?= $produto->uuid_produto ?>/adicionar" method="POST">

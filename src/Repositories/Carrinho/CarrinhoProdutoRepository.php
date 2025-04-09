@@ -25,6 +25,31 @@ class CarrinhoProdutoRepository implements ICarrinhoProduto {
         $this->carrinhoRepository = new CarrinhoRepository();
     }
 
+    public function findProduct(int $carrinho_id, int $produtos_id){
+        $sql = "SELECT * FROM " . self::TABLE . " 
+            WHERE 
+                carrinho_id = :carrinho_id
+            AND
+                produtos_id = :produtos_id
+        ";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->execute([
+            ':carrinho_id' => $carrinho_id,
+            ':produtos_id' => $produtos_id
+        ]);
+
+        $stmt->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, self::CLASS_NAME);
+        $result = $stmt->fetch();
+
+        if(is_null($result)){
+            return null;
+        }
+
+        return $result;
+    }
+
     public function allProductsInCart(int $id){
         $sql = "SELECT cp.*, 
                 c.id as carrinho_id,
@@ -52,7 +77,7 @@ class CarrinhoProdutoRepository implements ICarrinhoProduto {
 
         try{
             $sql = "INSERT INTO ". self::TABLE . "
-                set
+                SET
                     uuid = :uuid,
                     quantidade = :quantidade,
                     carrinho_id = :carrinho_id,
@@ -77,11 +102,68 @@ class CarrinhoProdutoRepository implements ICarrinhoProduto {
         }catch (\Throwable $th) {
             return null;
         }finally{
-            Database::getInstance()->getConnection();
+            Database::getInstance()->closeConnection();
         }
     }
 
-    public function removeProductInCart(int $id, int $produto_id, int $quantidade){}
+    public function subtractProductQuantity(int $id, int $produto_id, int $quantidade){
+        $quantidade = $quantidade - 1;
+
+        try{
+            $sql = "UPDATE " . self::TABLE . "
+                SET
+                    quantidade = :quantidade
+                WHERE
+                    carrinho_id = :carrinho_id
+                AND
+                    produtos_id = :produtos_id
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $subtract = $stmt->execute([
+                ':quantidade' => $quantidade,
+                ':carrinho_id' => $id,
+                ':produtos_id' => $produto_id
+            ]);
+
+            if(!$subtract){
+                return null;
+            }
+
+            return $quantidade;
+
+        }catch (\Throwable $th) {
+            return null;
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
+
+    public function removeProductInCart(int $id, int $produto_id){
+        try{
+            $sql = "DELETE FROM ". self::TABLE . "
+                WHERE 
+                    carrinho_id = :carrinho_id
+                AND
+                    produtos_id = :produtos_id
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $delete = $stmt->execute([
+                ':carrinho_id' => $id,
+                ':produtos_id' => $produto_id
+            ]);
+
+            return $delete;
+
+        }catch (\Throwable $th) {
+            return null;
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
 
     public function deleteAllProducts(int $id, int $usuario_id){}
 
