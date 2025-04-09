@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\CarrinhoProduto;
+namespace App\Models\Carrinho;
 
 use App\Models\Traits\Uuid;
 
-class Carrinho {
+class CarrinhoProduto {
 
     use Uuid;
 
@@ -13,6 +13,10 @@ class Carrinho {
     public $quantidade;
     public $carrinho_id;
     public $produtos_id;
+    public $uuid_produto;
+    public $nome;
+    public $preco;
+    public $imagem;
     public $created_at;
     public $updated_at;
 

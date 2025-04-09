@@ -4,9 +4,9 @@ namespace App\Interface\Carrinho;
 
 interface ICarrinhoProduto{
 
-    public function allProductsInCart(int $id, int $usuario_id);
+    public function allProductsInCart(int $id);
 
-    public function addProductInCart(int $id, int $produto_id, int $quantidade);
+    public function addProductInCart(array $data, int $id, int $produto_id);
 
     public function removeProductInCart(int $id, int $produto_id, int $quantidade);
 
