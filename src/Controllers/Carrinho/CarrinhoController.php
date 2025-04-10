@@ -67,6 +67,10 @@ class CarrinhoController extends Controller {
         
         $data = $request->getBodyParams();
 
+        if($this->carrinhoProdutoRepository->findProduct($carrinho->id, $produto->id)){
+            $this->sumProductQuantity($request, $produto->uuid);
+        }
+
         $carrinhoProduto = $this->carrinhoProdutoRepository->addProductInCart($data, $carrinho->id, $produto->id);
 
         if(is_null($carrinhoProduto)){
