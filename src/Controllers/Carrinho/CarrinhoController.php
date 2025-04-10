@@ -33,7 +33,7 @@ class CarrinhoController extends Controller {
         if(!$carrinho){
             return $this->router->view('carrinho/index', [
                 'user' => $user,
-                'carrinhoProduto' => null //ou 0
+                'carrinhoProduto' => false
             ]);
         }
 
@@ -53,10 +53,11 @@ class CarrinhoController extends Controller {
         $carrinho = $this->carrinhoRepository->findByUserId($user->id);
         
         if(!$carrinho){
-            return $this->router->view('carrinho/index', [
-                'user' => $user,
-                'carrinhoProduto' => null
-            ]);
+            $carrinho = $this->carrinhoRepository->create($user->id);
+
+            if(is_null($carrinho)){
+                return $this->router->redirect('');
+            }
         }
 
         $produto = $this->produtoRepository->findByUuid($produto_uuid);
@@ -86,10 +87,7 @@ class CarrinhoController extends Controller {
         $carrinho = $this->carrinhoRepository->findByUserId($user->id);
         
         if(!$carrinho){
-            return $this->router->view('carrinho/index', [
-                'user' => $user,
-                'carrinhoProduto' => null
-            ]);
+            return $this->router->redirect('carrinho');
         }
 
         $produto = $this->produtoRepository->findByUuid($produto_uuid);
@@ -115,10 +113,7 @@ class CarrinhoController extends Controller {
         $carrinho = $this->carrinhoRepository->findByUserId($user->id);
         
         if(!$carrinho){
-            return $this->router->view('carrinho/index', [
-                'user' => $user,
-                'carrinhoProduto' => null
-            ]);
+            return $this->router->redirect('carrinho');
         }
 
         $produto = $this->produtoRepository->findByUuid($produto_uuid);
@@ -148,10 +143,7 @@ class CarrinhoController extends Controller {
         $carrinho = $this->carrinhoRepository->findByUserId($user->id);
 
         if(!$carrinho){
-            return $this->router->view('carrinho/index', [
-                'user' => $user,
-                'carrinhoProduto' => null
-            ]);
+            return $this->router->redirect('carrinho');
         }
 
         $produto = $this->produtoRepository->findByUuid($produto_uuid);
@@ -170,6 +162,16 @@ class CarrinhoController extends Controller {
                 'carrinhoProduto' => $carrinhoProduto,
                 'erro' => 'Não foi possível deletar produto do carrinho'
             ]);   
+        }
+
+        if(count($carrinhoProduto) <= 1){
+            $deleteCarrinho = $this->carrinhoRepository->delete($carrinho->id);
+
+            if(!$deleteCarrinho){
+                return $this->router->redirect('');
+            }
+
+            return $this->router->redirect('carrinho');
         }
 
         return $this->router->redirect('carrinho');

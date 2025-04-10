@@ -2,7 +2,7 @@
 
 <div>
     <?php
-        if(count($carrinhoProduto) > 0 || !is_null($carrinhoProduto)){
+        if($carrinhoProduto && count($carrinhoProduto) > 0){
             foreach($carrinhoProduto as $produto){
     ?>
         <div style="border: 1px solid black">
@@ -17,10 +17,18 @@
                 <form action="carrinho/produto/<?= $produto->uuid_produto ?>/acrescentar" method="POST">
                     <button type="submit">+</button>
                 </form>
+                
+                <form action="carrinho/produto/<?= $produto->uuid_produto ?>/remover" method="POST">
+                    <button type="submit">Remover do carrinho</button>
+                </form>
             </div>
         </div>
     <?php
             }
+        }else{
+    ?>
+        <p>Carrinho nao existe</p>
+    <?php
         }
     ?>
 </div>
