@@ -1,5 +1,7 @@
 <h1>Carrinho aqui</h1>
 
+<p>Total: <?= $total ?></p>
+
 <div>
     <?php
         if($carrinhoProduto && count($carrinhoProduto) > 0){
@@ -27,7 +29,7 @@
             }
         }else{
     ?>
-        <p>Carrinho nao existe</p>
+        <p>Não há produtos...</p>
     <?php
         }
     ?>

@@ -39,8 +39,11 @@ class CarrinhoController extends Controller {
 
         $carrinhoProduto = $this->carrinhoProdutoRepository->allProductsInCart($carrinho->id);
 
+        $totalPrice = countTotalPriceWithDiscount($carrinhoProduto);
+
         return $this->router->view('carrinho/index', [
             'user' => $user,
+            'total' => $totalPrice,
             'carrinhoProduto' => $carrinhoProduto
         ]);
     }
