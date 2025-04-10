@@ -47,6 +47,64 @@ class CarrinhoController extends Controller {
 
     public function finish(Request $request){}
 
+    public function addProductInCart(Request $request, $produto_uuid){
+        $user = $this->auth->user();
+
+        $carrinho = $this->carrinhoRepository->findByUserId($user->id);
+        
+        if(!$carrinho){
+            return $this->router->view('carrinho/index', [
+                'user' => $user,
+                'carrinhoProduto' => null
+            ]);
+        }
+
+        $produto = $this->produtoRepository->findByUuid($produto_uuid);
+
+        if(!$produto){
+            return $this->router->redirect('');
+        }
+        
+        $data = $request->getBodyParams();
+
+        $carrinhoProduto = $this->carrinhoProdutoRepository->addProductInCart($data, $carrinho->id, $produto->id);
+
+        if(is_null($carrinhoProduto)){
+            return $this->router->redirect('');
+        }
+
+        return $this->router->redirect('carrinho');
+    }
+
+    public function sumProductQuantity(Request $request, $produto_uuid){
+        $user = $this->auth->user();
+
+        $carrinho = $this->carrinhoRepository->findByUserId($user->id);
+        
+        if(!$carrinho){
+            return $this->router->view('carrinho/index', [
+                'user' => $user,
+                'carrinhoProduto' => null
+            ]);
+        }
+
+        $produto = $this->produtoRepository->findByUuid($produto_uuid);
+
+        if(!$produto){
+            return $this->router->redirect('');
+        }
+
+        $produtoCarrinho = $this->carrinhoProdutoRepository->findProduct($carrinho->id, $produto->id);
+
+        $sum = $this->carrinhoProdutoRepository->sumProductQuantity($carrinho->id, $produto->id, $produtoCarrinho->quantidade);
+
+        if(is_null($sum)){
+            return $this->router->redirect('');
+        }
+
+        return $this->router->redirect('carrinho');
+    }
+
     public function subtractProductQuantity(Request $request, $produto_uuid){
         $user = $this->auth->user();
 

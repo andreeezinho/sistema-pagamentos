@@ -91,7 +91,9 @@ $router->create("GET", "/carrinho", [$carrinhoController, 'index'], $auth);
 $router->create("GET", "/carrinho/finalizar", [$carrinhoController, 'finish'], $auth);
 
 //carrinho-produto
+$router->create("POST", "/carrinho/produto/{produto_uuid}/adicionar", [$carrinhoController, 'addProductInCart'], $auth);
 $router->create("POST", "/carrinho/produto/{produto_uuid}/subtrair", [$carrinhoController, 'subtractProductQuantity'], $auth);
+$router->create("POST", "/carrinho/produto/{produto_uuid}/acrescentar", [$carrinhoController, 'sumProductQuantity'], $auth);
 $router->create("POST", "/carrinho/produto/{produto_uuid}/remover", [$carrinhoController, 'deleteProduct'], $auth);
 
 return $router;

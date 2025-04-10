@@ -89,8 +89,8 @@ class CarrinhoProdutoRepository implements ICarrinhoProduto {
             $create = $stmt->execute([
                 ':uuid' => $carrinhoProduto->uuid,
                 ':quantidade' => $carrinhoProduto->quantidade,
-                ':carrinho_id' => $carrinho_id,
-                ':produtos_id' => $produtos_id
+                ':carrinho_id' => $carrinhoProduto->carrinho_id,
+                ':produtos_id' => $carrinhoProduto->produtos_id
             ]);
 
             if(!$create){
@@ -106,8 +106,42 @@ class CarrinhoProdutoRepository implements ICarrinhoProduto {
         }
     }
 
+    public function sumProductQuantity(int $id, int $produto_id, int $quantidade){
+        $quantidade += 1;
+
+        try{
+            $sql = "UPDATE " . self::TABLE . "
+                SET
+                    quantidade = :quantidade
+                WHERE
+                    carrinho_id = :carrinho_id
+                AND
+                    produtos_id = :produtos_id
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $sum = $stmt->execute([
+                ':quantidade' => $quantidade,
+                ':carrinho_id' => $id,
+                ':produtos_id' => $produto_id
+            ]);
+
+            if(!$sum){
+                return null;
+            }
+
+            return $quantidade;
+
+        }catch (\Throwable $th) {
+            return null;
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
+
     public function subtractProductQuantity(int $id, int $produto_id, int $quantidade){
-        $quantidade = $quantidade - 1;
+        $quantidade -= 1;
 
         try{
             $sql = "UPDATE " . self::TABLE . "

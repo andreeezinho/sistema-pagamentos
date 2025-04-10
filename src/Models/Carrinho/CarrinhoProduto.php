@@ -21,7 +21,7 @@ class CarrinhoProduto {
     public $updated_at;
 
     public function create(array $data, int $carrinho_id, int $produtos_id){
-        $carrinhoProduto = new Carrinho();
+        $carrinhoProduto = new CarrinhoProduto();
         $carrinhoProduto->id = $data['id'] ?? null;
         $carrinhoProduto->uuid = $data['uuid'] ?? $this->generateUUID();
         $carrinhoProduto->quantidade = (!isset($data['quantidade']) || $data['quantidade'] == "") ? 1 : $data['quantidade'];
