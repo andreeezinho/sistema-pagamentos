@@ -16,7 +16,7 @@ interface ICarrinhoProduto{
 
     public function removeProductInCart(int $id, int $produto_id);
 
-    public function deleteAllProducts(int $id, int $usuario_id);
+    public function deleteAllProducts(int $id);
 
     public function findByUuid(string $uuid);
 
