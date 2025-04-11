@@ -34,3 +34,11 @@
         }
     ?>
 </div>
+
+<form action="/carrinho/finalizar" method="POST">
+    <input type="number" name="desconto" placeholder="Desconto">
+    <select name="endereco" id="endereco">
+        <option value="1">Endereço de teste</option>
+    </select>
+    <button type="submit">Finalizar</button>
+</form>

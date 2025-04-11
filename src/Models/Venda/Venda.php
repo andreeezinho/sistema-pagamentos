@@ -22,7 +22,7 @@ class Venda {
         $venda->id = $data['id'] ?? null;
         $venda->uuid = $data['uuid'] ?? $this->generateUUID();
         $venda->desconto = (!isset($data['desconto']) || $data['desconto'] == "") ? 1 : $data['desconto'];
-        $venda->enderecos_id = $data['enderecos_id'] ?? null;
+        $venda->enderecos_id = $data['endereco'] ?? null;
         $venda->usuarios_id = $usuarios_id ?? null;
         $venda->total = $data['total'] ?? null;
         $venda->created_at = $data['created_at'] ?? null;

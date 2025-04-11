@@ -8,13 +8,14 @@ use App\Controllers\Controller;
 use App\Repositories\Carrinho\CarrinhoRepository;
 use App\Repositories\Carrinho\CarrinhoProdutoRepository;
 use App\Repositories\Produto\ProdutoRepository;
-use App\Repositories\User\UserRepository;
+use App\Repositories\Venda\VendaRepository;
 
 class CarrinhoController extends Controller {
 
     protected $carrinhoRepository;
     protected $carrinhoProdutoRepository;
     protected $produtoRepository;
+    protected $vendaRepository;
     protected $auth;
 
     public function __construct(){
@@ -22,6 +23,7 @@ class CarrinhoController extends Controller {
         $this->carrinhoRepository = new CarrinhoRepository();
         $this->carrinhoProdutoRepository = new CarrinhoProdutoRepository();
         $this->produtoRepository = new ProdutoRepository();
+        $this->vendaRepository = new VendaRepository();
         $this->auth = new Auth();
     }
 
@@ -61,7 +63,11 @@ class CarrinhoController extends Controller {
 
         $data = $request->getBodyParams();
 
-        $venda = $this->vendaRepository->create($data, $carrinho->id, $user->id);
+        $totalPrice = countTotalPriceWithDiscount($carrinhoProduto, $data['desconto']);
+
+        $data = array_merge($data, ['total' => $totalPrice]);
+
+        $venda = $this->vendaRepository->create($data, $user->id);
 
         if(is_null($venda)){
             return $this->router->redirect('');

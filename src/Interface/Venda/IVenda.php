@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Interface\Venda;
+
+interface IVenda {
+
+    public function create(array $data, int $usuarios_id);
+
+    public function delete(int $id);
+
+    public function findByUuid(string $uuid);
+
+    public function findById(string $id);
+
+    public function findByUserId(string $usuarios_id);
+
+}
