@@ -58,5 +58,25 @@ class vendaRepository implements IVenda {
         }
     }
 
-    public function delete(int $id){}
+    public function delete(int $id){
+        try{
+            $sql = "DELETE FROM " . self::TABLE . "
+                WHERE
+                    id = :id
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $create = $stmt->execute([
+                ':id' => $id
+            ]);
+
+            return $create;
+
+        }catch(\Throwable $th){
+            return null;
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
 }
