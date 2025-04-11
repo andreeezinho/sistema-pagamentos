@@ -5,6 +5,7 @@
 </form>
 <a href="/dashboard">dash</a>
 <a href="/produtos">produtos</a>
+<a href="/carrinho">carrinho</a>
 
 <?php
     if(count($produtos) > 0){
@@ -17,6 +18,11 @@
         <p><?= $produto->preco ?></p>
         <p><?= $produto->estoque ?></p>
         <p><?= $produto->ativo ?></p>
+
+        <form action="/carrinho/produto/<?= $produto->uuid ?>/adicionar" method="POST">
+            <input type="number" name="quantidade" value=1>
+            <button type="submit">No carrinho</button>
+        </form>
     </div>
 <?php
         }

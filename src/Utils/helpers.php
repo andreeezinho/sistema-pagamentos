@@ -78,3 +78,18 @@ function removeImage($arquivo, $dir){
 
     return false;
 }
+
+function countTotalPriceWithDiscount($products, int $discount = 0){
+    $total = 0;
+
+    foreach($products as $product){
+        $total += $product->preco * $product->quantidade;
+    }
+
+    if($discount > 0){
+        $priceWithDiscount = ($discount * $total) / 100;
+        $total -= $priceWithDiscount;
+    }
+
+    return $total;
+}

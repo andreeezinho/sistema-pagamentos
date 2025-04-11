@@ -12,6 +12,7 @@ use App\Controllers\User\UserPerfilController;
 use App\Controllers\Home\HomeController;
 use App\Controllers\Produto\ProdutoController;
 use App\Controllers\Produto\CarrosselProdutoController;
+use App\Controllers\Carrinho\CarrinhoController;
 
 //instanciar
 $router = new Router();
@@ -25,6 +26,7 @@ $userPerfilController = new UserPerfilController();
 $homeController = new HomeController();
 $produtoController = new ProdutoController();
 $carrosselProdutoController = new CarrosselProdutoController();
+$carrinhoController = new CarrinhoController();
 
 //rotas
 
@@ -84,5 +86,14 @@ $router->create("POST", "/carrossel-produtos/{produto_uuid}/adicionar", [$carros
 $router->create("POST", "/carrossel-produtos/{uuid}/editar", [$carrosselProdutoController, 'update'], $auth);
 $router->create("POST", "/carrossel-produtos/{uuid}/remover", [$carrosselProdutoController, 'destroy'], $auth);
 
+//carrinho
+$router->create("GET", "/carrinho", [$carrinhoController, 'index'], $auth);
+$router->create("GET", "/carrinho/finalizar", [$carrinhoController, 'finish'], $auth);
+
+//carrinho-produto
+$router->create("POST", "/carrinho/produto/{produto_uuid}/adicionar", [$carrinhoController, 'addProductInCart'], $auth);
+$router->create("POST", "/carrinho/produto/{produto_uuid}/subtrair", [$carrinhoController, 'subtractProductQuantity'], $auth);
+$router->create("POST", "/carrinho/produto/{produto_uuid}/acrescentar", [$carrinhoController, 'sumProductQuantity'], $auth);
+$router->create("POST", "/carrinho/produto/{produto_uuid}/remover", [$carrinhoController, 'deleteProduct'], $auth);
 
 return $router;
