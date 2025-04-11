@@ -199,6 +199,26 @@ class CarrinhoProdutoRepository implements ICarrinhoProduto {
         }
     }
 
-    public function deleteAllProducts(int $id, int $usuario_id){}
+    public function deleteAllProducts(int $carrinho_id){
+        try{
+            $sql = "DELETE FROM ". self::TABLE ."
+                WHERE
+                    carrinho_id = :carrinho_id
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $delete = $stmt->execute([
+                ':carrinho_id' => $carrinho_id
+            ]);
+
+            return $delete;
+
+        }catch (\Throwable $th) {
+            return null;
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
 
 }

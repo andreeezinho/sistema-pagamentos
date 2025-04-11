@@ -48,7 +48,45 @@ class CarrinhoController extends Controller {
         ]);
     }
 
-    public function finish(Request $request){}
+    public function finish(Request $request){
+        $user = $this->auth->user();
+
+        $carrinho = $this->carrinhoRepository->findByUserId($user->id);
+        
+        if(!$carrinho){
+            return $this->router->redirect('carrinho');
+        }
+
+        $carrinhoProduto = $this->carrinhoProdutoRepository->allProductsInCart($carrinho->id);
+
+        $data = $request->getBodyParams();
+
+        $venda = $this->vendaRepository->create($data, $carrinho->id, $user->id);
+
+        if(is_null($venda)){
+            return $this->router->redirect('');
+        }
+
+        $vendaProduto = $this->vendaProdutoRepository->transferAllCartProduct($carrinhoProduto);
+
+        if(is_null($vendaProduto)){
+            return $this->router->redirect('');
+        }
+
+        $deleteProductsInCart = $this->carrinhoProdutoRepository->deleteAllProducts($carrinho->id);
+
+        if(!$deleteProductsInCart){
+            return $this->router->redirect('');
+        }
+
+        $deleteCart = $this->carrinhoRepository->delete($carrinho->id);
+
+        if(!$deleteCart){
+            return $this->router->redirect('');
+        }
+
+        return $this->router->redirect('minhas-compras/'.$venda->uuid);
+    }
 
     public function addProductInCart(Request $request, $produto_uuid){
         $user = $this->auth->user();
