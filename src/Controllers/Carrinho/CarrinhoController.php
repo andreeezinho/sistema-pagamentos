@@ -94,7 +94,7 @@ class CarrinhoController extends Controller {
             return $this->router->redirect('');
         }
 
-        return $this->router->redirect('minhas-compras/'.$venda->uuid);
+        return $this->router->redirect('compras');
     }
 
     public function addProductInCart(Request $request, $produto_uuid){

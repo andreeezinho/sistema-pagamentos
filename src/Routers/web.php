@@ -13,6 +13,7 @@ use App\Controllers\Home\HomeController;
 use App\Controllers\Produto\ProdutoController;
 use App\Controllers\Produto\CarrosselProdutoController;
 use App\Controllers\Carrinho\CarrinhoController;
+use App\Controllers\Venda\VendaController;
 
 //instanciar
 $router = new Router();
@@ -27,6 +28,7 @@ $homeController = new HomeController();
 $produtoController = new ProdutoController();
 $carrosselProdutoController = new CarrosselProdutoController();
 $carrinhoController = new CarrinhoController();
+$vendaController = new VendaController();
 
 //rotas
 
@@ -95,5 +97,8 @@ $router->create("POST", "/carrinho/produto/{produto_uuid}/adicionar", [$carrinho
 $router->create("POST", "/carrinho/produto/{produto_uuid}/subtrair", [$carrinhoController, 'subtractProductQuantity'], $auth);
 $router->create("POST", "/carrinho/produto/{produto_uuid}/acrescentar", [$carrinhoController, 'sumProductQuantity'], $auth);
 $router->create("POST", "/carrinho/produto/{produto_uuid}/remover", [$carrinhoController, 'deleteProduct'], $auth);
+
+//vendas
+$router->create("GET", "/compras", [$vendaController, 'index'], $auth);
 
 return $router;
