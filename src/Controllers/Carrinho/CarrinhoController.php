@@ -9,6 +9,7 @@ use App\Repositories\Carrinho\CarrinhoRepository;
 use App\Repositories\Carrinho\CarrinhoProdutoRepository;
 use App\Repositories\Produto\ProdutoRepository;
 use App\Repositories\Venda\VendaRepository;
+use App\Repositories\Venda\VendaProdutoRepository;
 
 class CarrinhoController extends Controller {
 
@@ -16,6 +17,7 @@ class CarrinhoController extends Controller {
     protected $carrinhoProdutoRepository;
     protected $produtoRepository;
     protected $vendaRepository;
+    protected $vendaProdutoRepository;
     protected $auth;
 
     public function __construct(){
@@ -24,6 +26,7 @@ class CarrinhoController extends Controller {
         $this->carrinhoProdutoRepository = new CarrinhoProdutoRepository();
         $this->produtoRepository = new ProdutoRepository();
         $this->vendaRepository = new VendaRepository();
+        $this->vendaProdutoRepository = new VendaProdutoRepository();
         $this->auth = new Auth();
     }
 
@@ -73,7 +76,7 @@ class CarrinhoController extends Controller {
             return $this->router->redirect('');
         }
 
-        $vendaProduto = $this->vendaProdutoRepository->transferAllCartProduct($carrinhoProduto);
+        $vendaProduto = $this->vendaProdutoRepository->transferAllCartProduct($carrinhoProduto, $venda->id);
 
         if(is_null($vendaProduto)){
             return $this->router->redirect('');

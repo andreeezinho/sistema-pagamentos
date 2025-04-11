@@ -7,7 +7,7 @@ use App\Config\Database;
 use App\Models\Venda\Venda;
 use App\Repositories\Traits\Find;
 
-class vendaRepository implements IVenda {
+class VendaRepository implements IVenda {
 
     const CLASS_NAME = Venda::class;
     const TABLE = 'vendas';

@@ -1,6 +1,6 @@
 <h1>Carrinho aqui</h1>
 
-<p>Total: <?= $total ?></p>
+<p>Total: <?= $total ?? null ?></p>
 
 <div>
     <?php
