@@ -22,6 +22,28 @@ class VendaProdutoRepository implements IVendaProduto {
         $this->model = new VendaProduto();
     }
 
+    public function allProductsInSale($venda_id){
+        $sql = "SELECT vp.*,
+                v.id as vendas_id,
+                p.uuid as uuid_produto, p.nome as nome, p.preco as preco, p.imagem as imagem
+            FROM " . self::TABLE . " vp 
+            JOIN vendas v
+                ON vendas_id = v.id
+            JOIN produtos p
+                ON produtos_id = p.id
+            WHERE v.id = :vendas_id
+            ORDER BY vp.created_at ASC
+        ";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->execute([
+            ':vendas_id' => $venda_id
+        ]);
+
+        return $stmt->fetchAll(\PDO::FETCH_CLASS, self::CLASS_NAME);
+    }
+
     public function transferAllCartProduct($carrinhoProdutos, $venda_id){
         if(count($carrinhoProdutos) < 0){
             return null;

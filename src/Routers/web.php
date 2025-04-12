@@ -100,5 +100,7 @@ $router->create("POST", "/carrinho/produto/{produto_uuid}/remover", [$carrinhoCo
 
 //vendas
 $router->create("GET", "/compras", [$vendaController, 'index'], $auth);
+$router->create("GET", "/compras/{uuid}/detalhes", [$vendaController, 'details'], $auth);
+$router->create("POST", "/compras/{uuid}/cancelar", [$vendaController, 'cancel'], $auth);
 
 return $router;

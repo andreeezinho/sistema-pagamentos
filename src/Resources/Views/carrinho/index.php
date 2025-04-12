@@ -8,7 +8,7 @@
             foreach($carrinhoProduto as $produto){
     ?>
         <div style="border: 1px solid black">
-            <img src="public/img/produto/<?= $produto->imagem ?>" alt="Imagem do Produto" width="100px">
+            <img src="/public/img/produto/<?= $produto->imagem ?>" alt="Imagem do Produto" width="100px">
             <p>nome: <?= $produto->nome ?></p>
             <p>Quant: <?= $produto->quantidade ?></p>
             <p>preco: <?= $produto->preco ?></p>

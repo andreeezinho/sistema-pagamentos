@@ -33,4 +33,47 @@ class VendaController extends Controller {
         ]);
     }
 
+    public function details(Request $request, $uuid){
+        $user = $this->auth->user();
+        
+        $venda = $this->vendaRepository->findByUuid($uuid);
+
+        if(!$venda){
+            return $this->router->redirect('');
+        }
+
+        if($venda->usuarios_id != $user->id){
+            return $this->router->redirect('');
+        }
+
+        $produtos = $this->vendaProdutoRepository->allProductsInSale($venda->id);
+
+        return $this->router->view('venda/detalhes/index', [
+            'venda' => $venda,
+            'produtos' => $produtos
+        ]);
+    }
+
+    public function cancel(Request $request, $uuid){
+        $user = $this->auth->user();
+        
+        $venda = $this->vendaRepository->findByUuid($uuid);
+
+        if(!$venda){
+            return $this->router->redirect('');
+        }
+
+        if($venda->usuarios_id != $user->id){
+            return $this->router->redirect('');
+        }
+
+        $cancel = $this->vendaRepository->delete($venda->id);
+
+        if(!$cancel){
+            return $this->router->redirect('compras');
+        }
+
+        return $this->router->redirect('compras');
+    }
+
 }

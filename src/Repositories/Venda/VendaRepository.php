@@ -28,7 +28,6 @@ class VendaRepository implements IVenda {
         $conditions = [];
         $bindings = [];
     
-        //para situacao do pagamento
         if(isset($params['situacao']) && $params['situacao'] != ""){
             $conditions[] = "situacao = :situacao";
             $bindings[':situacao'] = $params['situacao'];
@@ -36,7 +35,7 @@ class VendaRepository implements IVenda {
 
         if(isset($params['data']) && $params['data'] != ""){
             $conditions[] = "date_format(created_at, '%d/%m/%Y') = date_format(:data, '%d/%m/%Y')";
-            $bindings[':data'] = $params['situacao'];
+            $bindings[':data'] = $params['data'];
         }
 
         $sql .= " WHERE usuarios_id = :usuarios_id ";
@@ -94,18 +93,20 @@ class VendaRepository implements IVenda {
 
     public function delete(int $id){
         try{
-            $sql = "DELETE FROM " . self::TABLE . "
+            $sql = "UPDATE " . self::TABLE . "
+                SET
+                    situacao = 'cancelada'
                 WHERE
                     id = :id
             ";
 
             $stmt = $this->conn->prepare($sql);
 
-            $create = $stmt->execute([
+            $delete = $stmt->execute([
                 ':id' => $id
             ]);
 
-            return $create;
+            return $delete;
 
         }catch(\Throwable $th){
             return null;
