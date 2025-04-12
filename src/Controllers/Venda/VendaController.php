@@ -22,7 +22,15 @@ class VendaController extends Controller {
     }
 
     public function index(Request $request){
-        return $this->router->view('venda/index', []);
+        $user = $this->auth->user();
+
+        $params = $request->getQueryParams();
+
+        $vendas = $this->vendaRepository->allUserSales($params, $user->id);
+
+        return $this->router->view('venda/index', [
+            'vendas' => $vendas
+        ]);
     }
 
 }

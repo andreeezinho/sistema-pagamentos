@@ -22,6 +22,40 @@ class VendaRepository implements IVenda {
         $this->model = new Venda();
     }
 
+    public function allUserSales(array $params, int $usuarios_id){
+        $sql = "SELECT * FROM " . self::TABLE;
+    
+        $conditions = [];
+        $bindings = [];
+    
+        //para situacao do pagamento
+        if(isset($params['situacao']) && $params['situacao'] != ""){
+            $conditions[] = "situacao = :situacao";
+            $bindings[':situacao'] = $params['situacao'];
+        }
+
+        if(isset($params['data']) && $params['data'] != ""){
+            $conditions[] = "date_format(created_at, '%d/%m/%Y') = date_format(:data, '%d/%m/%Y')";
+            $bindings[':data'] = $params['situacao'];
+        }
+
+        $sql .= " WHERE usuarios_id = :usuarios_id ";
+    
+        if(count($conditions) > 0) {
+            $sql .= " AND " . implode(" AND ", $conditions);
+        }
+
+        $sql .= " ORDER BY created_at DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        
+        $bindings = array_merge($bindings, [':usuarios_id' => $usuarios_id]);
+
+        $stmt->execute($bindings);
+
+        return $stmt->fetchAll(\PDO::FETCH_CLASS, self::CLASS_NAME);
+    }
+
     public function create(array $data, int $usuarios_id){
         $venda = $this->model->create($data, $usuarios_id);
 

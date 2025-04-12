@@ -66,10 +66,10 @@ class CarrinhoController extends Controller {
 
         $data = $request->getBodyParams();
 
-        $totalPrice = countTotalPriceWithDiscount($carrinhoProduto, $data['desconto']);
+        $totalPrice = countTotalPriceWithDiscount($carrinhoProduto, (int)$data['desconto']);
 
         $data = array_merge($data, ['total' => $totalPrice]);
-
+        
         $venda = $this->vendaRepository->create($data, $user->id);
 
         if(is_null($venda)){
