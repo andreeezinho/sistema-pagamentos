@@ -22,7 +22,7 @@ class VendaProdutoRepository implements IVendaProduto {
         $this->model = new VendaProduto();
     }
 
-    public function allProductsInSale($venda_id){
+    public function allProductsInSale(int $venda_id){
         $sql = "SELECT vp.*,
                 v.id as vendas_id,
                 p.uuid as uuid_produto, p.nome as nome, p.preco as preco, p.imagem as imagem
@@ -44,7 +44,7 @@ class VendaProdutoRepository implements IVendaProduto {
         return $stmt->fetchAll(\PDO::FETCH_CLASS, self::CLASS_NAME);
     }
 
-    public function transferAllCartProduct($carrinhoProdutos, $venda_id){
+    public function transferAllCartProduct(array $carrinhoProdutos, int $venda_id){
         if(count($carrinhoProdutos) < 0){
             return null;
         }

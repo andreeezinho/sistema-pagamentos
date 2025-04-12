@@ -4,6 +4,8 @@ namespace App\Interface\Venda;
 
 interface IVenda {
 
+    public function allUserSales(array $params, int $usuarios_id);
+
     public function create(array $data, int $usuarios_id);
 
     public function delete(int $id);
