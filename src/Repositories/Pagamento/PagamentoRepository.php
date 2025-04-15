@@ -23,19 +23,76 @@ class PagamentoRepository implements IPagamento {
     }
 
     public function findSalePayment(int $usuarios, int $vendas_id){
-        try {
+        try{
             $sql = "SELECT * FROM " . self::TABLE . "
                 WHERE
                     usuarios_id = :usuarios_id
                 AND
                     vendas_id = :vendas_id
             ";  
-        } catch (\Throwable $th) {
-            //throw $th;
+
+            $stmt = $this->conn->prepare($sql);
+
+            $result = $stmt->execute([
+                ':usuarios_id' => $usuarios_id,
+                ':vendas_id' => $vendas_id
+            ]);
+
+            $stmt->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, self::CLASS_NAME);
+            $result = $stmt->fetch();
+
+            if(is_null($result)){
+                return null;
+            }
+
+            return $result;
+
+        }catch(\Throwable $th) {
+            return null;
+        }finally{
+            Database::getInstance()->closeConnection();
         }
     }
 
-    public function create(array $data, int $usuarios_id, int $vendas_id){}
+    public function create(array $data, int $usuarios_id, int $vendas_id){
+        $pagamento = $this->model->create($data, $usuarios_id, $vendas_id);
+
+        try{
+            $sql = "INSERT INTO " . self::TABLE . "
+                SET
+                    uuid = :uuid,
+                    id_pix = :id_pix,
+                    codigo = :codigo,
+                    qr_code = :qr_code,
+                    status = :status,
+                    usuarios_id = :usuarios_id,
+                    vendas_id = :vendas_id,
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $create = $stmt->execute([
+                ':uuid' => $pagamento->uuid,
+                ':id_pix' => $pagamento->id_pix,
+                ':codigo' => $pagamento->codigo,
+                ':qr_code' => $pagamento->qr_code,
+                ':status' => $pagamento->status,
+                ':usuarios_id' => $pagamento->usuarios_id,
+                ':vendas_id' => $pagamento->vendas_id
+            ]);
+
+            if(!$create){
+                return null;
+            }
+
+            return $this->findByUuid($pagamento->uuid);
+
+        }catch(\Throwable $th) {
+            return null;
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
 
     public function update(array $data, int $usuarios_id, int $vendas_id){}
 

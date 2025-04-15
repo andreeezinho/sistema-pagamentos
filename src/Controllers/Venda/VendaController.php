@@ -7,7 +7,6 @@ use App\Config\Auth;
 use App\Controllers\Controller;
 use App\Repositories\Venda\VendaRepository;
 use App\Repositories\Venda\VendaProdutoRepository;
-use App\Services\GerarPagamento;
 
 class VendaController extends Controller {
 
@@ -77,24 +76,6 @@ class VendaController extends Controller {
         }
 
         return $this->router->redirect('compras');
-    }
-
-    public function generatePayment(Request $request, $uuid){
-        $user = $this->auth->user();
-        
-        $venda = $this->vendaRepository->findByUuid($uuid);
-
-        if(!$venda){
-            return $this->router->redirect('');
-        }
-
-        if($venda->usuarios_id != $user->id){
-            return $this->router->redirect('');
-        }
-
-        $payment = $this->payment->generatePayment("pix", $venda->total, $user->email);
-
-        dd($payment);
     }
 
 }
