@@ -10,7 +10,7 @@ interface IPagamento{
 
     public function update(int $id, array $data);
 
-    public function updateStatus(int $id);
+    public function updateStatus(int $id, string $status);
 
     public function findByUuid(string $uuid);
 

@@ -131,11 +131,11 @@ class PagamentoRepository implements IPagamento {
         }
     }
 
-    public function updateStatus(int $id){
+    public function updateStatus(int $id, string $status){
         try{
             $sql = "UPDATE " . self::TABLE . "
                 SET
-                    status = cancelled
+                    status = :status
                 WHERE
                     id = :id
             ";
@@ -143,6 +143,7 @@ class PagamentoRepository implements IPagamento {
             $stmt = $this->conn->prepare($sql);
 
             $update = $stmt->execute([
+                ':status' => $status,
                 ':id' => $id
             ]);
 

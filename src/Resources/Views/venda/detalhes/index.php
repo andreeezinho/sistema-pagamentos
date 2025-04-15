@@ -1,19 +1,24 @@
 <h1>Detalhes da compra</h1>
 
 <p>TOTAL: R$ <?= $venda->total ?></p>
+<p>TOTAL: R$ <?= $venda->situacao ?></p>
 
 <?php
-    if(!$pagamento){
+    if($venda->situacao != "cancelada"){
+        if(!$pagamento){
 ?>
     <form action="/compras/<?= $venda->uuid ?>/gerar-pagamento" method="POST">
         <button type="submit">GERAR PIX</button>
     </form>
 <?php
     }else{
+        if($venda->situacao != "concluida"){
 ?>
     <img src="data:image/jpeg;base64,<?= $pagamento->qr_code ?>" width="250px">
     <p><?= $pagamento->codigo ?></p>
 <?php
+            }
+        }   
     }
 ?>
 

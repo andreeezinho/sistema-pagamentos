@@ -91,6 +91,35 @@ class VendaRepository implements IVenda {
         }
     }
 
+    public function updateStatus(int $id, string $status){
+        try{
+            $sql = "UPDATE " . self::TABLE . "
+                SET
+                    situacao = :status
+                WHERE
+                    id = :id
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $update = $stmt->execute([
+                ':status' => $status,
+                ':id' => $id
+            ]);
+
+            if(!$update){
+                return null;
+            }
+
+            return $this->findById($id);
+
+        }catch(\Throwable $th){
+            return $th;
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
+
     public function delete(int $id){
         try{
             $sql = "UPDATE " . self::TABLE . "

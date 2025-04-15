@@ -56,6 +56,14 @@ class VendaController extends Controller {
 
         $payment = $this->pagamentoRepository->findSalePayment($user->id, $venda->id);
 
+        if(!$payment){
+            return $this->router->view('venda/detalhes/index', [
+                'venda' => $venda,
+                'produtos' => $produtos,
+                'pagamento' => false
+            ]);
+        }
+
         $status = $this->payment->getPaymentStatus($payment->id_pix);
 
         if($status == "cancelled"){
@@ -66,6 +74,28 @@ class VendaController extends Controller {
             }
 
             $payment = $this->pagamentoRepository->update($payment->id, $generatePayment);
+
+            if(is_null($payment)){
+                return $this->router->view('venda/detalhes/index', [
+                    'venda' => $venda,
+                    'produtos' => $produtos,
+                    'pagamento' => false
+                ]);
+            }
+        }
+
+        if($status == "approved"){
+            $payment = $this->pagamentoRepository->updateStatus($payment->id, "approved");
+
+            if(is_null($payment)){
+                return $this->router->view('venda/detalhes/index', [
+                    'venda' => $venda,
+                    'produtos' => $produtos,
+                    'pagamento' => false
+                ]);
+            }
+
+            $update = $this->vendaRepository->updateStatus($venda->id, "concluida");
         }
 
         return $this->router->view('venda/detalhes/index', [
