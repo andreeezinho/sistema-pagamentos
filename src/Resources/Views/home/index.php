@@ -2,7 +2,15 @@
     require_once __DIR__ . '/../layout/top.php';
 ?>
 
-<h1>HOME</h1>
+<header class="bg-dark py-5 mb-3">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">Faça suas compras!</h1>
+            <p class="lead fw-normal text-white-50 mb-0">Os melhores produtos aqui</p>
+        </div>
+    </div>
+</header>
+
 <form action="/" method="get">
 <input type="text" name="nome" placeholder="nome">
 <button type="submit">Search</button>
