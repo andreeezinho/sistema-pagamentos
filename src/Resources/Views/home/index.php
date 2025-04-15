@@ -1,3 +1,7 @@
+<?php
+    require_once __DIR__ . '/../layout/top.php';
+?>
+
 <h1>HOME</h1>
 <form action="/" method="get">
 <input type="text" name="nome" placeholder="nome">
@@ -31,4 +35,8 @@
     <p>Não há produtos</p>
 <?php
     }
+?>
+
+<?php
+    require_once __DIR__ . '/../layout/bottom.php';
 ?>
