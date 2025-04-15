@@ -11,7 +11,7 @@ class GerarPagamento {
 
     public function generatePayment(string $method, float $price, string $email){
 
-        MercadoPagoConfig::setAccessToken("APP_USR-274381405765033-031216-287b60210bb2fca4b6c0e9150bc4e74e-1509949497");
+        MercadoPagoConfig::setAccessToken(TOKEN);
         MercadoPagoConfig::setRuntimeEnviroment(MercadoPagoConfig::LOCAL);
 
         $client = new PaymentClient();
@@ -51,6 +51,19 @@ class GerarPagamento {
             echo $e->getMessage();
             return null;
         }
+    }
+
+    public function getPaymentStatus(int $id_pix){
+        MercadoPagoConfig::setAccessToken(TOKEN);
+        MercadoPagoConfig::setRuntimeEnviroment(MercadoPagoConfig::LOCAL);
+        
+        $client = new PaymentClient();
+
+        $payment = $client->get($id_pix);
+
+        $status = $payment->status;
+
+        return $status;
     }
 
 }
