@@ -3,7 +3,7 @@
         'name' => 'andreeezinho/sistema_pagamentos',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => '5d82e0a40872cb0f5222c27cc44523ad32fca470',
+        'reference' => '8ff77a7b529cd62c61feae06fe86753aa26ba62d',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'andreeezinho/sistema_pagamentos' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => '5d82e0a40872cb0f5222c27cc44523ad32fca470',
+            'reference' => '8ff77a7b529cd62c61feae06fe86753aa26ba62d',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -66,7 +66,7 @@ class PagamentoRepository implements IPagamento {
                     qr_code = :qr_code,
                     status = :status,
                     usuarios_id = :usuarios_id,
-                    vendas_id = :vendas_id,
+                    vendas_id = :vendas_id
             ";
 
             $stmt = $this->conn->prepare($sql);
@@ -88,7 +88,7 @@ class PagamentoRepository implements IPagamento {
             return $this->findByUuid($pagamento->uuid);
 
         }catch(\Throwable $th) {
-            return null;
+            return $th;
         }finally{
             Database::getInstance()->closeConnection();
         }

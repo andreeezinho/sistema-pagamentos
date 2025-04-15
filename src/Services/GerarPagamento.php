@@ -46,8 +46,10 @@ class GerarPagamento {
             echo "Content: ";
             var_dump($e->getApiResponse()->getContent());
             echo "\n";
+            return null;
         }catch(\Exception $e) {
             echo $e->getMessage();
+            return null;
         }
     }
 

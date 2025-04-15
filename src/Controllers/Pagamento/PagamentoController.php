@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers\Venda;
+namespace App\Controllers\Pagamento;
 
 use App\Request\Request;
 use App\Config\Auth;
@@ -9,7 +9,7 @@ use App\Repositories\Pagamento\PagamentoRepository;
 use App\Repositories\Venda\VendaRepository;
 use App\Services\GerarPagamento;
 
-class VendaController extends Controller {
+class PagamentoController extends Controller {
 
     protected $pagamentoRepository;
     protected $vendaRepository;
@@ -39,7 +39,17 @@ class VendaController extends Controller {
 
         $payment = $this->payment->generatePayment("pix", $venda->total, $user->email);
 
-        dd($payment);
+        if(is_null($payment)){
+            return $this->router->redirect('compras');
+        }
+
+        $create = $this->pagamentoRepository->create($payment, $user->id, $venda->id);
+
+        if(is_null($create)){
+            return $this->router->redirect('compras');
+        }
+
+        return $this->router->redirect('compras/'.$venda->uuid.'/detalhes');
     }
 
 }

@@ -7,6 +7,7 @@ use App\Config\Auth;
 use App\Controllers\Controller;
 use App\Repositories\Venda\VendaRepository;
 use App\Repositories\Venda\VendaProdutoRepository;
+use App\Services\GerarPagamento;
 
 class VendaController extends Controller {
 

@@ -14,6 +14,7 @@ use App\Controllers\Produto\ProdutoController;
 use App\Controllers\Produto\CarrosselProdutoController;
 use App\Controllers\Carrinho\CarrinhoController;
 use App\Controllers\Venda\VendaController;
+use App\Controllers\Pagamento\PagamentoController;
 
 //instanciar
 $router = new Router();
@@ -29,6 +30,7 @@ $produtoController = new ProdutoController();
 $carrosselProdutoController = new CarrosselProdutoController();
 $carrinhoController = new CarrinhoController();
 $vendaController = new VendaController();
+$pagamentoController = new PagamentoController();
 
 //rotas
 
@@ -104,6 +106,6 @@ $router->create("GET", "/compras/{uuid}/detalhes", [$vendaController, 'details']
 $router->create("POST", "/compras/{uuid}/cancelar", [$vendaController, 'cancel'], $auth);
 
 //venda-pagamento
-$router->create("POST", "/compras/{uuid}/gerar-pagamento", [$vendaController, 'generatePayment'], $auth);
+$router->create("POST", "/compras/{venda_uuid}/gerar-pagamento", [$pagamentoController, 'generatePayment'], $auth);
 
 return $router;
