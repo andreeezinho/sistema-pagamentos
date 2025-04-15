@@ -12,6 +12,10 @@ class ComposerStaticInitd751713988987e9331980363e24189ce
     );
 
     public static $prefixLengthsPsr4 = array (
+        'M' => 
+        array (
+            'MercadoPago\\' => 12,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -19,6 +23,10 @@ class ComposerStaticInitd751713988987e9331980363e24189ce
     );
 
     public static $prefixDirsPsr4 = array (
+        'MercadoPago\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mercadopago/dx-php/src/MercadoPago',
+        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
