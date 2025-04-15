@@ -33,7 +33,14 @@
     ?>
 </div>
 
-<form action="/compras/<?= $venda->uuid ?>/cancelar" method="post">
-    <button type="submit">Cancelar</button>
-</form>
+<?php
+    if($venda->situacao == 'aguardando pagamento'){
+?>
+    <form action="/compras/<?= $venda->uuid ?>/cancelar" method="post">
+        <button type="submit">Cancelar</button>
+    </form>
+<?php
+    }
+?>
+
 <a href="/compras">Voltar</a>

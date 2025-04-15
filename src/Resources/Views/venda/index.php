@@ -22,9 +22,15 @@
             <p>Total: R$<?= $venda->total ?></p>
             <p>Feita em <?= date('d/m/Y', strtotime($venda->created_at)) ?></p>
             <p>Situação: <?= $venda->situacao ?></p>
-            <form action="/compras/<?= $venda->uuid ?>/cancelar" method="post">
-                <button type="submit">Cancelar</button>
-            </form>
+            <?php
+                if($venda->situacao == 'aguardando pagamento'){
+            ?>
+                <form action="/compras/<?= $venda->uuid ?>/cancelar" method="post">
+                    <button type="submit">Cancelar</button>
+                </form>
+            <?php
+                }
+            ?>
             <a href="/compras/<?= $venda->uuid ?>/detalhes">Abrir compra</a>
         </div>
     <?php
