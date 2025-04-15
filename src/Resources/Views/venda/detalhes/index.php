@@ -3,11 +3,16 @@
 <p>TOTAL: R$ <?= $venda->total ?></p>
 
 <?php
-    if($venda->situacao == 'aguardando pagamento'){
+    if(!$pagamento){
 ?>
     <form action="/compras/<?= $venda->uuid ?>/gerar-pagamento" method="POST">
         <button type="submit">GERAR PIX</button>
     </form>
+<?php
+    }else{
+?>
+    <img src="data:image/jpeg;base64,<?= $pagamento->qr_code ?>" width="250px">
+    <p><?= $pagamento->codigo ?></p>
 <?php
     }
 ?>

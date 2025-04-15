@@ -34,4 +34,13 @@ class Pagamento {
         return $pagamento;
     }
 
+    public function update(array $data) : Pagamento {
+        $pagamento = new Pagamento();
+        $pagamento->id_pix = $data['id_pix'] ?? null;
+        $pagamento->codigo = $data['codigo'] ?? null;
+        $pagamento->qr_code = $data['qr_code'] ?? null;
+        $pagamento->status = $data['status'] ?? null;
+        return $pagamento;
+    }
+
 }

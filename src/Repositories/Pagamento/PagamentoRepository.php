@@ -22,7 +22,7 @@ class PagamentoRepository implements IPagamento {
         $this->model = new Pagamento();
     }
 
-    public function findSalePayment(int $usuarios, int $vendas_id){
+    public function findSalePayment(int $usuarios_id, int $vendas_id){
         try{
             $sql = "SELECT * FROM " . self::TABLE . "
                 WHERE
@@ -94,8 +94,69 @@ class PagamentoRepository implements IPagamento {
         }
     }
 
-    public function update(array $data, int $usuarios_id, int $vendas_id){}
+    public function update(int $id, array $data){
+        $pagamento = $this->model->update($data);
 
-    public function delete(int $id){}
+        try{
+            $sql = "UPDATE " . self::TABLE . "
+                SET
+                    id_pix = :id_pix,
+                    codigo = :codigo,
+                    qr_code = :qr_code,
+                    status = :status
+                WHERE
+                    id = :id
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $update = $stmt->execute([
+                ':id_pix' => $pagamento->id_pix,
+                ':codigo' => $pagamento->codigo,
+                ':qr_code' => $pagamento->qr_code,
+                ':status' => $pagamento->status,
+                ':id' => $id
+            ]);
+
+            if(!$update){
+                return null;
+            }
+
+            return $this->findById($id);
+
+        }catch(\Throwable $th){
+            return $th;
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
+
+    public function updateStatus(int $id){
+        try{
+            $sql = "UPDATE " . self::TABLE . "
+                SET
+                    status = cancelled
+                WHERE
+                    id = :id
+            ";
+
+            $stmt = $this->conn->prepare($sql);
+
+            $update = $stmt->execute([
+                ':id' => $id
+            ]);
+
+            if(!$update){
+                return null;
+            }
+
+            return $this->findById($id);
+
+        }catch(\Throwable $th){
+            return $th;
+        }finally{
+            Database::getInstance()->closeConnection();
+        }
+    }
 
 }

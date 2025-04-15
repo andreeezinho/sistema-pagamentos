@@ -6,12 +6,14 @@ use App\Request\Request;
 use App\Config\Auth;
 use App\Controllers\Controller;
 use App\Repositories\Venda\VendaRepository;
+use App\Repositories\Pagamento\PagamentoRepository;
 use App\Repositories\Venda\VendaProdutoRepository;
 use App\Services\GerarPagamento;
 
 class VendaController extends Controller {
 
     protected $vendaRepository;
+    protected $pagamentoRepository;
     protected $vendaProdutoRepository;
     protected $auth;
     protected $payment;
@@ -19,6 +21,7 @@ class VendaController extends Controller {
     public function __construct(){
         parent::__construct();
         $this->vendaRepository = new VendaRepository();
+        $this->pagamentoRepository = new PagamentoRepository();
         $this->vendaProdutoRepository = new VendaProdutoRepository();
         $this->auth = new Auth();
         $this->payment = new GerarPagamento();
@@ -51,9 +54,24 @@ class VendaController extends Controller {
 
         $produtos = $this->vendaProdutoRepository->allProductsInSale($venda->id);
 
+        $payment = $this->pagamentoRepository->findSalePayment($user->id, $venda->id);
+
+        $status = $this->payment->getPaymentStatus($payment->id_pix);
+
+        if($status == "cancelled"){
+            $generatePayment = $this->payment->generatePayment("pix", $venda->total, $user->email);
+
+            if(is_null($generatePayment)){
+                return $this->router->redirect('compras');
+            }
+
+            $payment = $this->pagamentoRepository->update($payment->id, $generatePayment);
+        }
+
         return $this->router->view('venda/detalhes/index', [
             'venda' => $venda,
-            'produtos' => $produtos
+            'produtos' => $produtos,
+            'pagamento' => $payment
         ]);
     }
 

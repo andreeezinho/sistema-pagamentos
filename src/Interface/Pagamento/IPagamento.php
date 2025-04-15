@@ -8,9 +8,9 @@ interface IPagamento{
 
     public function create(array $data, int $usuarios_id, int $vendas_id);
 
-    public function update(array $data, int $usuarios_id, int $vendas_id);
+    public function update(int $id, array $data);
 
-    public function delete(int $id);
+    public function updateStatus(int $id);
 
     public function findByUuid(string $uuid);
 
