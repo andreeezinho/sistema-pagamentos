@@ -35,9 +35,10 @@ class GerarPagamento {
             $data = json_decode(json_encode($payment), true);
 
             return [
-                'pix_id' => $data['id'],
+                'id_pix' => $data['id'],
+                'status' => $data['status'],
                 'qr_code' => $data['point_of_interaction']['transaction_data']['qr_code_base64'],
-                'pix_code' => $data['point_of_interaction']['transaction_data']['qr_code']
+                'codigo' => $data['point_of_interaction']['transaction_data']['qr_code']
             ];
 
         }catch(MPApiException $e) {

@@ -103,4 +103,7 @@ $router->create("GET", "/compras", [$vendaController, 'index'], $auth);
 $router->create("GET", "/compras/{uuid}/detalhes", [$vendaController, 'details'], $auth);
 $router->create("POST", "/compras/{uuid}/cancelar", [$vendaController, 'cancel'], $auth);
 
+//venda-pagamento
+$router->create("POST", "/compras/{uuid}/gerar-pagamento", [$vendaController, 'generatePayment'], $auth);
+
 return $router;
