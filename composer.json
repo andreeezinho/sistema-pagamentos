@@ -3,7 +3,8 @@
     "description": "Sistema de pagamento por pix",
     "license": "proprietary",
     "require": {
-        "php": ">=8.0"
+        "php": ">=8.0",
+        "mercadopago/dx-php": "^3.1"
     },
 
     "autoload" : {

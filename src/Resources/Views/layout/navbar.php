@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark px-0 px-md-5">
+<nav class="navbar navbar-expand-md navbar-dark bg-success px-0 px-md-5">
     <div class="container-fluid">
         <a class="navbar-brand ml-5" href="/">
             <img src="<?= URL_SITE ?>/public/img/site/logo.png" alt="Logo" class="logo">

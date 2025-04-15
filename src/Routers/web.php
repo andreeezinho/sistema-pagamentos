@@ -13,6 +13,8 @@ use App\Controllers\Home\HomeController;
 use App\Controllers\Produto\ProdutoController;
 use App\Controllers\Produto\CarrosselProdutoController;
 use App\Controllers\Carrinho\CarrinhoController;
+use App\Controllers\Venda\VendaController;
+use App\Controllers\Pagamento\PagamentoController;
 
 //instanciar
 $router = new Router();
@@ -27,6 +29,8 @@ $homeController = new HomeController();
 $produtoController = new ProdutoController();
 $carrosselProdutoController = new CarrosselProdutoController();
 $carrinhoController = new CarrinhoController();
+$vendaController = new VendaController();
+$pagamentoController = new PagamentoController();
 
 //rotas
 
@@ -88,12 +92,20 @@ $router->create("POST", "/carrossel-produtos/{uuid}/remover", [$carrosselProduto
 
 //carrinho
 $router->create("GET", "/carrinho", [$carrinhoController, 'index'], $auth);
-$router->create("GET", "/carrinho/finalizar", [$carrinhoController, 'finish'], $auth);
+$router->create("POST", "/carrinho/finalizar", [$carrinhoController, 'finish'], $auth);
 
 //carrinho-produto
 $router->create("POST", "/carrinho/produto/{produto_uuid}/adicionar", [$carrinhoController, 'addProductInCart'], $auth);
 $router->create("POST", "/carrinho/produto/{produto_uuid}/subtrair", [$carrinhoController, 'subtractProductQuantity'], $auth);
 $router->create("POST", "/carrinho/produto/{produto_uuid}/acrescentar", [$carrinhoController, 'sumProductQuantity'], $auth);
 $router->create("POST", "/carrinho/produto/{produto_uuid}/remover", [$carrinhoController, 'deleteProduct'], $auth);
+
+//vendas
+$router->create("GET", "/compras", [$vendaController, 'index'], $auth);
+$router->create("GET", "/compras/{uuid}/detalhes", [$vendaController, 'details'], $auth);
+$router->create("POST", "/compras/{uuid}/cancelar", [$vendaController, 'cancel'], $auth);
+
+//venda-pagamento
+$router->create("POST", "/compras/{venda_uuid}/gerar-pagamento", [$pagamentoController, 'generatePayment'], $auth);
 
 return $router;

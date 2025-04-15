@@ -1,6 +1,6 @@
 <h1>Carrinho aqui</h1>
 
-<p>Total: <?= $total ?></p>
+<p>Total: <?= $total ?? null ?></p>
 
 <div>
     <?php
@@ -8,7 +8,7 @@
             foreach($carrinhoProduto as $produto){
     ?>
         <div style="border: 1px solid black">
-            <img src="public/img/produto/<?= $produto->imagem ?>" alt="Imagem do Produto" width="100px">
+            <img src="/public/img/produto/<?= $produto->imagem ?>" alt="Imagem do Produto" width="100px">
             <p>nome: <?= $produto->nome ?></p>
             <p>Quant: <?= $produto->quantidade ?></p>
             <p>preco: <?= $produto->preco ?></p>
@@ -34,3 +34,11 @@
         }
     ?>
 </div>
+
+<form action="/carrinho/finalizar" method="POST">
+    <input type="number" name="desconto" placeholder="Desconto">
+    <select name="endereco" id="endereco">
+        <option value="1">Endereço de teste</option>
+    </select>
+    <button type="submit">Finalizar</button>
+</form>
